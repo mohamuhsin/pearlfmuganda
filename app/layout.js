@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
+import AudioPlayer from "@/components/Live/Player";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -27,7 +28,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.className} ${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
-        <div className="h-full">{children}</div>
+        <div className="h-full">
+          {children}
+          <AudioPlayer />
+        </div>
       </body>
     </html>
   );
