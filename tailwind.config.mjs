@@ -1,3 +1,4 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -13,5 +14,6 @@ export default {
       },
     },
   },
+  darkMode: "class", // Use class strategy for dark mode
   plugins: [],
 };

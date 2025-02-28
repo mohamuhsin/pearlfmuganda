@@ -1,21 +1,53 @@
+/* Tailwind Base, Components, and Utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Define custom background and foreground colors */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Apply custom colors to body */
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Define the keyframes for the outward pulsating wave effect */
+@keyframes pulseWave {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 4, 4, 0.8), 0 0 15px rgba(218, 15, 15, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 40px rgba(252, 199, 111, 0),
+      0 0 60px rgba(252, 199, 111, 0.4);
+  }
+}
+
+/* Apply the animation to the LiveButton */
+.animate-pulseWave {
+  animation: pulseWave 0.5s infinite ease-out;
+}
+
+/* Continuous animation for the donation button */
+@keyframes continuousAnimation {
+  0% {
+    transform: scale(1);
+    background-color: #fec76f;
+  }
+  50% {
+    transform: scale(1.05);
+    background-color: #f7a800;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #fec76f;
+  }
+}
+
+.continuous-animation {
+  animation: continuousAnimation 2s ease-in-out infinite;
 }
