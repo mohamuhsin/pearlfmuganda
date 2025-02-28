@@ -1,7 +1,9 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import AudioPlayer from "@/components/Live/Player";
 
+// Load Google Fonts
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -17,6 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Metadata for SEO
 export const metadata = {
   title: "Pearl Fm Uganda",
   description: "Ekkula Ly'omuntu W'abulijjo",
@@ -30,8 +33,11 @@ export default function RootLayout({ children }) {
       >
         <div className="h-full">
           {children}
+          {/* Consider lazy-loading the audio player if not needed immediately */}
           <AudioPlayer />
         </div>
+        {/* Analytics */}
+        <Analytics />
       </body>
     </html>
   );
