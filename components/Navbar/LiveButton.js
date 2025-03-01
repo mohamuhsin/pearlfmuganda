@@ -8,10 +8,10 @@ export function LiveButton() {
         >
             <button
                 aria-label="Watch live stream"
-                className="bg-[#ec2b2b] text-[#ffffff] py-2 px-5 rounded-full text-xs md:text-sm lg:text-base font-extrabold
-                       relative overflow-hidden animate-pulseWave transform translate-x-0 flex justify-center items-center shrink-0 mx-4 my-2"
+                className="bg-[#ff7e1c] text-[#ffffff] py-2 px-5 rounded-full text-xs md:text-sm lg:text-base font-extrabold
+                       relative overflow-hidden transform translate-x-0 flex justify-center items-center shrink-0 mx-4 my-2"
             >
-                WATCH LIVE
+                Listen Live
             </button>
         </Link>
     );
