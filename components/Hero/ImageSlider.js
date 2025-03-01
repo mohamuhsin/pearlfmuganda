@@ -3,7 +3,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/effect-fade"; // Import Fade Effect
+import "swiper/css/effect-fade";
 
 import Image from "next/image";
 
@@ -20,10 +20,10 @@ export default function ImageSlider() {
             modules={[Autoplay, EffectFade]}
             slidesPerView={1}
             loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }} // 3 seconds transition
-            effect="fade" // Fade transition for a smooth effect
-            speed={1000} // Smooth transition speed (1 second)
-            className="w-full h-[100vh]" // Height set to 80% of the viewport height
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            effect="fade"
+            speed={1000}
+            className="w-full h-[150vh]"
         >
             {slides.map((slide, index) => (
                 <SwiperSlide key={index}>
