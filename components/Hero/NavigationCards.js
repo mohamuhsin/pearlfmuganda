@@ -4,7 +4,7 @@ import {
     FaCalendarAlt,
     FaCreditCard,
     FaStore,
-    FaComments,
+    FaQuestionCircle,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -27,9 +27,9 @@ const cards = [
         link: "/store",
     },
     {
-        title: "Muslim Chats",
-        icon: <FaComments size={40} />,
-        link: "/charity",
+        title: "Buuza Imaam",
+        icon: <FaQuestionCircle size={40} />,
+        link: "/buuza-imaam",
     },
 ];
 
