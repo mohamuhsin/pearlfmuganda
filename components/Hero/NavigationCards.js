@@ -37,7 +37,7 @@ export default function HeroContent() {
     return (
         <div className="flex flex-col items-start justify-start text-left mt-16 mb-16 sm:mt-24 sm:mb-20 px-6 sm:px-8 overflow-hidden">
             {/* Hero Text */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-8 sm:text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-8 sm:text-center md:text-left hidden sm:block">
                 Ekkula Ly&apos;omuntu W&apos;abulijjo
             </h1>
 
