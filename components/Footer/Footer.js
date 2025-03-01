@@ -20,8 +20,7 @@ export default function Follow() {
 
                 {/* Short Description */}
                 <p className="text-lg sm:text-xl text-gray-400 mb-8">
-                    Connect with us on social media for the latest updates and content
-                    from Pearl FM.
+                    Connect with us on social media for the latest updates and content.
                 </p>
 
                 {/* Social Media Icons */}

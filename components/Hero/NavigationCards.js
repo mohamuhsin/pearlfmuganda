@@ -3,6 +3,8 @@ import {
     FaPrayingHands,
     FaCalendarAlt,
     FaCreditCard,
+    FaStore,
+    FaComments,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -20,13 +22,13 @@ const cards = [
         link: "/charity",
     },
     {
-        title: "Charity",
-        icon: <FaHandHoldingHeart size={40} />,
-        link: "/charity",
+        title: "Store",
+        icon: <FaStore size={40} />,
+        link: "/store",
     },
     {
-        title: "Charity",
-        icon: <FaHandHoldingHeart size={40} />,
+        title: "Muslim Chats",
+        icon: <FaComments size={40} />,
         link: "/charity",
     },
 ];
