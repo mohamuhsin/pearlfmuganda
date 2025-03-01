@@ -23,7 +23,7 @@ export default function ImageSlider() {
             autoplay={{ delay: 3000, disableOnInteraction: false }}
             effect="fade"
             speed={1000}
-            className="w-full h-[150vh]"
+            className="w-full h-[125vh]"
         >
             {slides.map((slide, index) => (
                 <SwiperSlide key={index}>
