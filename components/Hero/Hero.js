@@ -14,7 +14,7 @@ export default function HeroSection() {
             </div>
 
             {/* Hero Content Section - Overlay Content */}
-            <div className="relative w-full h-full flex items-center justify-between px-4 sm:px-12">
+            <div className="relative w-full h-full flex items-center justify-between px-4 sm:px-8 md:px-12">
                 {/* Left Section: Hero Text and Cards (Wider for better emphasis) */}
                 <div className="w-full sm:w-3/5 flex flex-col items-start justify-center space-y-8 text-white">
                     <HeroContent />
@@ -28,9 +28,11 @@ export default function HeroSection() {
                                 <Image
                                     src="/watch-live.png"
                                     alt="Watch Live"
-                                    width={200}
-                                    height={200}
+                                    width={250}
+                                    height={250}
                                     className="rounded-full shadow-lg"
+                                    priority
+                                    layout="intrinsic"
                                 />
                                 {/* Circular Pulse Wave Effect */}
                                 <div className="absolute inset-0 rounded-full animate-pulse-wave" />
