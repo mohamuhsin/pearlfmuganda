@@ -22,9 +22,9 @@ const cards = [
         link: "/charity",
     },
     {
-        title: "Store",
+        title: "Shop",
         icon: <FaStore size={40} />,
-        link: "/store",
+        link: "/shop",
     },
     {
         title: "Buuza Imaam",
