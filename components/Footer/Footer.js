@@ -9,46 +9,88 @@ export default function Follow() {
             className="bg-gray-900 py-12 text-white"
             aria-labelledby="follow-section"
         >
-            <div className="max-w-screen-lg mx-auto px-6 text-center">
-                {/* Heading */}
-                <h2
-                    id="follow-section"
-                    className="text-4xl sm:text-5xl font-extrabold leading-snug mb-8"
-                >
-                    Let&apos;s Connect
-                </h2>
+            <div className="max-w-screen-lg mx-auto px-6 flex flex-col md:flex-row justify-between">
+                {/* Let's Connect Section (Left) */}
+                <div className="text-left mb-12 md:mb-0 md:w-1/2">
+                    {/* Heading */}
+                    <h2
+                        id="follow-section"
+                        className="text-4xl sm:text-5xl font-extrabold leading-snug mb-8"
+                    >
+                        Let&apos;s Connect
+                    </h2>
 
-                {/* Short Description */}
-                <p className="text-lg sm:text-xl text-gray-400 mb-8">
-                    Connect with us on social media for the latest updates and content.
-                </p>
+                    {/* Short Description */}
+                    <p className="text-lg sm:text-xl text-gray-400 mb-8">
+                        Connect with us on social media for the latest updates and content.
+                    </p>
 
-                {/* Social Media Icons */}
-                <div className="mt-12 flex justify-center gap-8 sm:gap-12">
-                    <SocialIcon
-                        href="https://x.com/pearlfm"
-                        icon={<FaXTwitter />}
-                        label="Follow on X"
-                        color="hover:text-[#1DA1F2]"
-                    />
-                    <SocialIcon
-                        href="https://www.facebook.com/pearlfm/"
-                        icon={<FaFacebookF />}
-                        label="Follow on Facebook"
-                        color="hover:text-[#1877F2]"
-                    />
-                    <SocialIcon
-                        href="https://www.tiktok.com/@pearlfm"
-                        icon={<FaTiktok />}
-                        label="Follow on TikTok"
-                        color="hover:text-[#69C9D0]"
-                    />
-                    <SocialIcon
-                        href="https://www.youtube.com/@pearlfm"
-                        icon={<FaYoutube />}
-                        label="Subscribe on YouTube"
-                        color="hover:text-[#FF0000]"
-                    />
+                    {/* Social Media Icons */}
+                    <div className="mt-12 flex flex-wrap gap-8 sm:gap-12">
+                        <SocialIcon
+                            href="https://x.com/pearlfm"
+                            icon={<FaXTwitter />}
+                            label="Follow on X"
+                            color="hover:text-[#1DA1F2]"
+                        />
+                        <SocialIcon
+                            href="https://www.facebook.com/pearlfm/"
+                            icon={<FaFacebookF />}
+                            label="Follow on Facebook"
+                            color="hover:text-[#1877F2]"
+                        />
+                        <SocialIcon
+                            href="https://www.tiktok.com/@pearlfm"
+                            icon={<FaTiktok />}
+                            label="Follow on TikTok"
+                            color="hover:text-[#69C9D0]"
+                        />
+                        <SocialIcon
+                            href="https://www.youtube.com/@pearlfm"
+                            icon={<FaYoutube />}
+                            label="Subscribe on YouTube"
+                            color="hover:text-[#FF0000]"
+                        />
+                    </div>
+                </div>
+
+                {/* Quick Links Section (Right) */}
+                <div className="text-left md:text-right md:w-1/2">
+                    {/* Heading */}
+                    <h2
+                        id="quick-links-section"
+                        className="text-4xl sm:text-5xl font-extrabold leading-snug mb-8"
+                    >
+                        Quick Links
+                    </h2>
+
+                    {/* Quick Links */}
+                    <div className="mt-8 flex flex-col gap-4">
+                        <Link
+                            href="/about"
+                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
+                        >
+                            About Us
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
+                        >
+                            Contact
+                        </Link>
+                        <Link
+                            href="/services"
+                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
+                        >
+                            Services
+                        </Link>
+                        <Link
+                            href="/blog"
+                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
+                        >
+                            Gallery
+                        </Link>
+                    </div>
                 </div>
             </div>
 
