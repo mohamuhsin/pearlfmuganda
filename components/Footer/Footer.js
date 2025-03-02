@@ -46,7 +46,7 @@ export default function Follow() {
                             color="hover:text-[#69C9D0]"
                         />
                         <SocialIcon
-                            href="https://www.youtube.com/@pearlfm"
+                            href="https://www.youtube.com/@pearlfmnews8016/videos"
                             icon={<FaYoutube />}
                             label="Subscribe on YouTube"
                             color="hover:text-[#FF0000]"
@@ -85,7 +85,7 @@ export default function Follow() {
                             Services
                         </Link>
                         <Link
-                            href="/blog"
+                            href="/gallery"
                             className="text-lg sm:text-xl text-gray-400 hover:text-white"
                         >
                             Gallery
