@@ -9,9 +9,12 @@ import Image from "next/image";
 
 const slides = [
     { src: "/hero.jpg", alt: "Community Event", title: "" },
-    { src: "/hero2.jpg", alt: "Charity Drive", title: "" },
+    { src: "/hero1.jpg", alt: "Charity Drive", title: "" },
+    { src: "/hero2.jpg", alt: "Dawa Session", title: "" },
     { src: "/hero3.jpg", alt: "Dawa Session", title: "" },
     { src: "/hero4.jpg", alt: "Dawa Session", title: "" },
+    { src: "/hero5.JPG", alt: "Dawa Session", title: "" },
+    { src: "/hero6.JPG", alt: "Dawa Session", title: "" },
 ];
 
 export default function ImageSlider() {
