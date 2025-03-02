@@ -38,7 +38,7 @@ export default function ImageSlider() {
                             fill
                             priority={index === 0}
                         />
-                        <div className="absolute inset-0 bg-black/50" />
+                        <div className="absolute inset-0 bg-black/60" />
                         <div className="absolute bottom-10 left-10 text-white text-2xl font-semibold drop-shadow-lg">
                             {slide.title}
                         </div>
