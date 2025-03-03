@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { FaFacebookF, FaTiktok, FaXTwitter, FaYoutube } from "react-icons/fa6";
+import {
+    FaFacebookF,
+    FaTiktok,
+    FaXTwitter,
+    FaYoutube,
+    FaInstagram,
+} from "react-icons/fa6";
 
 export default function Follow() {
     const currentYear = new Date().getFullYear();
@@ -34,13 +40,13 @@ export default function Follow() {
                             color="hover:text-[#1DA1F2]"
                         />
                         <SocialIcon
-                            href="https://www.facebook.com/pearlfm/"
+                            href="https://www.facebook.com/share/14yxNZZ4ao/"
                             icon={<FaFacebookF />}
                             label="Follow on Facebook"
                             color="hover:text-[#1877F2]"
                         />
                         <SocialIcon
-                            href="https://www.tiktok.com/@pearlfm"
+                            href="https://www.tiktok.com/@pearlfmradio?_t=ZM-8uNSv1MGmDV&_r=1"
                             icon={<FaTiktok />}
                             label="Follow on TikTok"
                             color="hover:text-[#69C9D0]"
@@ -50,6 +56,12 @@ export default function Follow() {
                             icon={<FaYoutube />}
                             label="Subscribe on YouTube"
                             color="hover:text-[#FF0000]"
+                        />
+                        <SocialIcon
+                            href="https://www.instagram.com/pearlfmuganda?igsh=ZzZzODg5d2NycmZr"
+                            icon={<FaInstagram />}
+                            label="Follow on Instagram"
+                            color="hover:text-[#E4405F]"
                         />
                     </div>
                 </div>
