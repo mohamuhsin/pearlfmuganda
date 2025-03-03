@@ -20,7 +20,7 @@ export default function Navbar() {
             {/* Right Section - Contact Info & Menu Button */}
             <div className="w-1/2 md:w-4/5 lg:w-5/6 flex justify-center md:justify-between items-center px-4 h-16 bg-[#030269] text-white relative">
                 {/* Desktop Contact Info */}
-                <div className="hidden md:flex max-w-7xl xl:max-w-[90%] 2xl:max-w-[85%]">
+                <div className="hidden md:flex">
                     <ContactInfo />
                 </div>
 
