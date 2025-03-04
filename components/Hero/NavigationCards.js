@@ -1,10 +1,10 @@
 import {
     FaHandHoldingHeart,
-    FaPrayingHands,
+    FaQuestionCircle,
     FaCalendarAlt,
     FaCreditCard,
-    FaStore,
-    FaQuestionCircle,
+    FaStoreAlt,
+    FaMosque,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -14,18 +14,18 @@ const cards = [
         icon: <FaCreditCard size={40} />,
         link: "/services",
     },
-    { title: "Events", icon: <FaCalendarAlt size={40} />, link: "/events" },
-    { title: "Dawa", icon: <FaPrayingHands size={40} />, link: "/dawa" },
+    { title: "Dawa", icon: <FaMosque size={40} />, link: "/dawa" },
     {
         title: "Charity",
         icon: <FaHandHoldingHeart size={40} />,
         link: "/charity",
     },
     {
-        title: "Shop",
-        icon: <FaStore size={40} />,
-        link: "/shop",
+        title: "Halal Business",
+        icon: <FaStoreAlt size={40} />,
+        link: "/halal-business",
     },
+    { title: "Events", icon: <FaCalendarAlt size={40} />, link: "/events" },
     {
         title: "Buuza Imaam",
         icon: <FaQuestionCircle size={40} />,
