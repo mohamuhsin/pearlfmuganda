@@ -34,7 +34,7 @@ export default function Follow() {
                     {/* Social Media Icons */}
                     <div className="mt-12 flex flex-wrap gap-8 sm:gap-12">
                         <SocialIcon
-                            href="https://x.com/pearlfm"
+                            href="https://x.com/pearlfmug?t=Wqmatis8XoI_6PHF7Bh-Fw&s=08"
                             icon={<FaXTwitter />}
                             label="Follow on X"
                             color="hover:text-[#1DA1F2]"

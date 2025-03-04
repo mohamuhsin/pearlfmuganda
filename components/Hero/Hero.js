@@ -32,7 +32,6 @@ export default function HeroSection() {
                                     height={250}
                                     className="rounded-full shadow-lg"
                                     priority
-                                    layout="intrinsic"
                                 />
                                 {/* Circular Pulse Wave Effect */}
                                 <div className="absolute inset-0 rounded-full animate-pulse-wave" />
