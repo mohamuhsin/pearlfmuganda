@@ -52,7 +52,7 @@ export default function CampaignSection() {
                                 backgroundColor="bg-red-500"
                                 textColor="text-red-600"
                                 hoverColor="hover:bg-red-100"
-                                imageSrc="/AIRTEL.png"
+                                imageSrc="/airtel.png"
                             />
                         </div>
                         <div className="flex justify-center">
@@ -63,7 +63,7 @@ export default function CampaignSection() {
                                 backgroundColor="bg-yellow-500"
                                 textColor="text-yellow-500"
                                 hoverColor="hover:bg-yellow-100"
-                                imageSrc="/MTN.png"
+                                imageSrc="/mtn.png"
                             />
                         </div>
                     </div>
