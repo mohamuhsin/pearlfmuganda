@@ -1,6 +1,6 @@
 import {
     FaHandHoldingHeart,
-    FaQuestionCircle,
+    FaAward,
     FaCalendarAlt,
     FaCreditCard,
     FaStoreAlt,
@@ -27,10 +27,10 @@ const cards = [
     },
     { title: "Events", icon: <FaCalendarAlt size={40} />, link: "/events" },
     {
-        title: "Buuza Imaam",
-        icon: <FaQuestionCircle size={40} />,
-        link: "/buuza-imaam",
-    },
+        title: "Awards",
+        icon: <FaAward size={40} />,
+        link: "/awards",
+    }
 ];
 
 export default function HeroContent() {
