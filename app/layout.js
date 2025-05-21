@@ -1,6 +1,9 @@
 import { Analytics } from "@vercel/analytics/react";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
+
+import Navbar from "@/components/Navbar/Navbar";
+import Follow from "@/components/Footer/Footer";
 import AudioPlayer from "@/components/Live/Player";
 
 // Load Google Fonts
@@ -31,12 +34,21 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.className} ${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
-        <div className="h-full">
-          {children}
-          {/* Consider lazy-loading the audio player if not needed immediately */}
+        <div className="flex flex-col min-h-screen">
+          {/* Global Navigation */}
+          <Navbar />
+
+          {/* Main Page Content */}
+          <main className="flex-grow">{children}</main>
+
+          {/* Global Footer */}
+          <Follow />
+
+          {/* Audio Player (sticky or global) */}
           <AudioPlayer />
         </div>
-        {/* Analytics */}
+
+        {/* Vercel Analytics */}
         <Analytics />
       </body>
     </html>
