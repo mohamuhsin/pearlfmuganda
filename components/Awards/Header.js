@@ -1,4 +1,4 @@
-export default function PageHeader({ title = "Ekkula Awards 2025" }) {
+export default function PageHeader({ title }) {
     return (
         <header className="relative bg-gradient-to-br from-[#2d2d30] to-[#180f4b] text-white min-h-[400px] flex items-center justify-center px-4 overflow-hidden shadow-xl">
             {/* Dark Elegant Crosshatch Pattern */}
@@ -55,7 +55,7 @@ export default function PageHeader({ title = "Ekkula Awards 2025" }) {
 
             {/* Title Content */}
             <div className="relative z-10 text-center max-w-5xl px-4">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
                     {title}
                 </h1>
                 <p className="mt-4 text-base sm:text-lg md:text-xl text-white/70">
