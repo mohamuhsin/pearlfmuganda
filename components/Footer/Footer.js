@@ -12,27 +12,24 @@ export default function Follow() {
 
     return (
         <section
-            className="bg-gray-900 py-12 text-white"
+            className="bg-gray-900 pt-16 pb-0 text-white"
             aria-labelledby="follow-section"
         >
-            <div className="max-w-screen-lg mx-auto px-6 flex flex-col md:flex-row justify-between">
-                {/* Let's Connect Section (Left) */}
-                <div className="text-left mb-12 md:mb-0 md:w-1/2">
-                    {/* Heading */}
+            <div className="max-w-screen-xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                {/* Let's Connect Section */}
+                <div>
                     <h2
                         id="follow-section"
-                        className="text-4xl sm:text-5xl font-extrabold leading-snug mb-8"
+                        className="text-[clamp(2rem,5vw,3rem)] font-extrabold leading-tight mb-6"
                     >
                         Let&apos;s Connect
                     </h2>
-
-                    {/* Short Description */}
-                    <p className="text-lg sm:text-xl text-gray-400 mb-8">
-                        Connect with us on social media for the latest updates and content.
+                    <p className="text-gray-400 text-base sm:text-lg md:text-xl mb-10 max-w-prose">
+                        Follow us on social media for the latest updates, shows, and
+                        behind-the-scenes moments.
                     </p>
 
-                    {/* Social Media Icons */}
-                    <div className="mt-12 flex flex-wrap gap-8 sm:gap-12">
+                    <div className="flex flex-wrap gap-6 sm:gap-8">
                         <SocialIcon
                             href="https://x.com/pearlfmug?t=Wqmatis8XoI_6PHF7Bh-Fw&s=08"
                             icon={<FaXTwitter />}
@@ -66,58 +63,48 @@ export default function Follow() {
                     </div>
                 </div>
 
-                {/* Quick Links Section (Right) */}
-                <div className="text-left md:text-right md:w-1/2">
-                    {/* Heading */}
+                {/* Quick Links Section */}
+                <div className="text-left lg:text-right">
                     <h2
                         id="quick-links-section"
-                        className="text-4xl sm:text-5xl font-extrabold leading-snug mb-8"
+                        className="text-[clamp(2rem,5vw,3rem)] font-extrabold leading-tight mb-6"
                     >
                         Quick Links
                     </h2>
 
-                    {/* Quick Links */}
-                    <div className="mt-8 flex flex-col gap-4">
-                        <Link
-                            href="/about"
-                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
-                        >
-                            About Us
-                        </Link>
-                        <Link
-                            href="/contact"
-                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
-                        >
-                            Contact
-                        </Link>
-                        <Link
-                            href="/services"
-                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
-                        >
-                            Services
-                        </Link>
-                        <Link
-                            href="/gallery"
-                            className="text-lg sm:text-xl text-gray-400 hover:text-white"
-                        >
-                            Gallery
-                        </Link>
-                    </div>
+                    <nav className="space-y-4">
+                        {[
+                            { href: "/about", label: "About Us" },
+                            { href: "/contact", label: "Contact" },
+                            { href: "/services", label: "Services" },
+                            { href: "/gallery", label: "Gallery" },
+                        ].map(({ href, label }) => (
+                            <Link
+                                key={href}
+                                href={href}
+                                className="block text-base sm:text-lg md:text-xl text-gray-400 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                            >
+                                {label}
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
             </div>
 
-            {/* Copyright Section */}
-            <footer className="mt-12 text-center border-t border-gray-700 pt-6 px-6 sm:px-8">
-                <p className="text-gray-400 text-base sm:text-lg">
-                    © {currentYear} Pearl Of Africa Radio. All rights reserved. | Site
-                    managed by{" "}
-                    <Link
-                        href="https://iventics.com"
-                        className="font-semibold hover:text-white hover:underline transition-colors"
-                    >
-                        Iventics Technologies
-                    </Link>
-                </p>
+            {/* Footer */}
+            <footer className="mt-16 border-t border-gray-700 px-6 sm:px-10 lg:px-16">
+                <div className="h-24 flex items-center justify-center text-center">
+                    <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-screen-md mx-auto leading-relaxed">
+                        © {currentYear} Pearl Of Africa Radio. All rights reserved. | Site
+                        managed by{" "}
+                        <Link
+                            href="https://iventics.com"
+                            className="font-semibold hover:text-white hover:underline transition-colors"
+                        >
+                            Iventics Technologies
+                        </Link>
+                    </p>
+                </div>
             </footer>
         </section>
     );
@@ -129,7 +116,7 @@ function SocialIcon({ href, icon, label, color }) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`text-white text-5xl transition-transform transform hover:scale-125 ${color} drop-shadow-md hover:drop-shadow-xl`}
+            className={`text-white text-3xl sm:text-4xl md:text-5xl transition-transform duration-300 transform hover:scale-125 ${color} drop-shadow-md hover:drop-shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white`}
             aria-label={label}
         >
             {icon}
