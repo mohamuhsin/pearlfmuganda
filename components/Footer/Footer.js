@@ -93,8 +93,8 @@ export default function Follow() {
 
             {/* Footer */}
             <footer className="mt-16 border-t border-gray-700 px-6 sm:px-10 lg:px-16">
-                <div className="h-24 flex items-center justify-center text-center">
-                    <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-screen-md mx-auto leading-relaxed">
+                <div className="h-24 flex items-center justify-center text-center overflow-x-auto">
+                    <p className="whitespace-nowrap text-base sm:text-lg md:text-xl text-gray-400">
                         © {currentYear} Pearl Of Africa Radio. All rights reserved. | Site
                         managed by{" "}
                         <Link
