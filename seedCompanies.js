@@ -138,6 +138,8 @@ const companiesByCategory = {
         "Mehmet Fashionz",
         "N&J Closet",
         "Hijab Face",
+        "Tamim Muslim Garments",
+
     ],
 };
 
