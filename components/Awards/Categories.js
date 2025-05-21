@@ -31,7 +31,7 @@ export default function Categories() {
 
     return (
         <section className="max-w-7xl mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-14 text-gray-800">
+            <h2 className="text-5xl font-bold text-center mb-14 text-gray-800">
                 Explore Award Categories
             </h2>
 
