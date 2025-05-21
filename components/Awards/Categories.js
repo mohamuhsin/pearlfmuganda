@@ -7,12 +7,15 @@ export default function Categories() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [openIndex, setOpenIndex] = useState(null); // to control which card shows results
+    const [openIndex, setOpenIndex] = useState(null);
 
     useEffect(() => {
         async function fetchCategories() {
+            const baseUrl =
+                typeof window === "undefined" ? process.env.NEXT_PUBLIC_BASE_URL : "";
+
             try {
-                const res = await fetch("/api/categories");
+                const res = await fetch(`${baseUrl}/api/categories`);
                 if (!res.ok) throw new Error("Failed to fetch categories");
                 const data = await res.json();
                 setCategories(data);
