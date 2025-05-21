@@ -11,9 +11,7 @@ export default function AwardsPage() {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Top Navigation */}
-            <header className="py-6">
-                <Navbar />
-            </header>
+            <header className="py-6">{/*<Navbar />*/}</header>
 
             {/* Hero Section */}
             <PageHeader title="Ekkula Awards 2025" />
