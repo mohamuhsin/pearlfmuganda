@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import VoteModal from "./VoteModal"; // Import the modal
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [openIndex, setOpenIndex] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null); // New state for modal
 
     useEffect(() => {
         async function fetchCategories() {
@@ -67,9 +69,7 @@ export default function Categories() {
 
                                 <div className="flex flex-col gap-4 mt-auto">
                                     <button
-                                        onClick={() => {
-                                            // TODO: open vote modal
-                                        }}
+                                        onClick={() => setSelectedCategory(cat)} // Trigger modal
                                         className="bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition"
                                     >
                                         Vote Now
@@ -110,6 +110,12 @@ export default function Categories() {
                     ))}
                 </div>
             )}
+
+            <VoteModal
+                isOpen={!!selectedCategory}
+                onClose={() => setSelectedCategory(null)}
+                category={selectedCategory}
+            />
         </section>
     );
 }
