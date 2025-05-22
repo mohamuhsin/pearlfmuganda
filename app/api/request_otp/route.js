@@ -1,7 +1,6 @@
 import { connectDB } from "@/lib/db";
 import Vote from "@/models/Vote";
 import { sendOtpSms } from "@/lib/twilio";
-import { storeOtp } from "@/lib/otpStore";
 
 export async function POST(req) {
     await connectDB();
@@ -15,20 +14,35 @@ export async function POST(req) {
     }
 
     try {
-        // Save the vote as pending
-        const vote = await Vote.create({
-            phone,
-            category: categoryId,
-            company: companyId,
-            status: "pending",
-        });
-
-        // Generate 6-digit OTP
+        // Generate a 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        storeOtp(phone, otp);
+        const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expires in 5 mins
 
-        // Send OTP via Twilio SMS
-        await sendOtpSms(phone, otp);
+        // Upsert vote with OTP info
+        const vote = await Vote.findOneAndUpdate(
+            { phone, category: categoryId },
+            {
+                $set: {
+                    phone,
+                    category: categoryId,
+                    company: companyId,
+                    status: "pending",
+                    otpCode: otp,
+                    otpExpiresAt,
+                },
+            },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        // Send OTP SMS with error handling
+        try {
+            await sendOtpSms(phone, otp);
+        } catch (smsError) {
+            console.error("Failed to send OTP SMS:", smsError);
+            return new Response(JSON.stringify({ error: "Failed to send OTP SMS" }), {
+                status: 500,
+            });
+        }
 
         return new Response(JSON.stringify({ success: true, voteId: vote._id }), {
             status: 200,
@@ -40,7 +54,7 @@ export async function POST(req) {
                 { status: 409 }
             );
         }
-        console.error("Vote creation error:", error.message);
+        console.error("Request OTP error:", error);
         return new Response(JSON.stringify({ error: "Something went wrong" }), {
             status: 500,
         });
