@@ -16,8 +16,12 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
         };
         if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "hidden";
         }
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "auto";
+        };
     }, [isOpen, onClose]);
 
     const handleVerify = async () => {
@@ -61,7 +65,7 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl"
+                    className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl transition hover:scale-110"
                     aria-label="Close modal"
                 >
                     &times;
@@ -79,14 +83,13 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
                         type="text"
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#ff7d1c]"
                         placeholder="Enter the OTP sent to your phone"
+                        className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
                     />
                 </div>
 
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-                {/* Updated Button Style */}
                 <button
                     onClick={handleVerify}
                     disabled={loading}

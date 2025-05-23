@@ -15,7 +15,6 @@ export default function VoteModal({ isOpen, onClose, category }) {
 
     const modalRef = useRef();
 
-    // Close modal on outside click
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -24,8 +23,12 @@ export default function VoteModal({ isOpen, onClose, category }) {
         };
         if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "hidden";
         }
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "auto";
+        };
     }, [isOpen, onClose]);
 
     const handleSubmit = async () => {
@@ -50,7 +53,7 @@ export default function VoteModal({ isOpen, onClose, category }) {
 
             const data = await res.json();
 
-            if (!res.ok) {
+            if (!res.ok || !data.voteId) {
                 setError(data.error || "Failed to send OTP");
             } else {
                 setVoteId(data.voteId);
@@ -99,7 +102,7 @@ export default function VoteModal({ isOpen, onClose, category }) {
                             <select
                                 value={companyId}
                                 onChange={(e) => setCompanyId(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#ff7d1c]"
+                                className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
                             >
                                 <option value="">-- Select --</option>
                                 {category.companies?.map((company) => (
@@ -119,7 +122,7 @@ export default function VoteModal({ isOpen, onClose, category }) {
                                 value={phone}
                                 onChange={setPhone}
                                 defaultCountry="UG"
-                                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#ff7d1c]"
+                                className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
                             />
                         </div>
 
