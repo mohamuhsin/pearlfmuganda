@@ -25,6 +25,13 @@ const companiesByCategory = {
         "Al Shawal Hijja and Umrah",
         "Mecca - Madina",
         "Kamalu Hijja Services",
+        "Mysk Hijja and Umrah",
+        "Suk Hijja and Umrah",
+        "Muzidalifah Log Hijja and Ummrah",
+        "Mazaata Hijja and Umrah Tours",
+        "Aljanatul Gaaya",
+        "Qubah Hijja and Umrah",
+        "Al Hibah Tours",
     ],
     "Agri Based Products Excellence Award": [
         "Supreme Flour",
@@ -47,7 +54,8 @@ const companiesByCategory = {
         "Dr Ssali",
         "Dr Ssenjobe",
         "Dr Kayiima",
-        "Dr Suubi",
+        "Dr Sulaiman Movid",
+        "Dr Mulwana",
         "Dr Wahab & Prof Kizito",
         "Prof Julius Nyanzi",
     ],
@@ -57,6 +65,7 @@ const companiesByCategory = {
         "Uganda Telecom",
         "Salaam Telecom",
         "Roke Telecom",
+        "Lyca Mobile",
     ],
     "Beverage Excellence Award": [
         "Pepsi Cola",
@@ -73,6 +82,9 @@ const companiesByCategory = {
     ],
     "Halal Restaurants Excellence Award": [
         "Faiz Cafe",
+        "Rahim Foods",
+        "KZ Restaurant",
+        "Uhuru Restaurant",
         "Tipsy",
         "Dynasty",
         "Cafe Javas",
@@ -106,6 +118,8 @@ const companiesByCategory = {
         "Hoods Property",
         "Ba Kayima",
         "Infotrust Property Consultants",
+        "Mahmood Properties",
+        "Budda events & Property mgt",
     ],
     "Recruitment Excellence Award": [
         "Ham Property",
@@ -127,10 +141,13 @@ const companiesByCategory = {
         "Chapa",
         "Dembe Distributor",
         "African Queen",
+        "Curiosity",
+        "TBWA",
+        "MAAD",
     ],
     "Muslim Fashion Excellence Award": [
         "Wahid Garments",
-        "Hajji Musah Trade",
+        "Hajji Musah Traders",
         "Hijab City",
         "Hamdan Kanzus",
         "Mwikenya Fashionz",
@@ -139,7 +156,8 @@ const companiesByCategory = {
         "N&J Closet",
         "Hijab Face",
         "Tamim Muslim Garments",
-
+        "Mustallah Collections",
+        "Hajjat Mastullah Garments",
     ],
 };
 
