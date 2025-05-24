@@ -2,34 +2,61 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import VoteModal from "./VoteModal"; // Import the modal
+import VoteModal from "./VoteModal";
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [openIndex, setOpenIndex] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null); // New state for modal
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const fetchCategories = async () => {
+        try {
+            const res = await fetch("/api/categories");
+            if (!res.ok) throw new Error("Failed to fetch categories");
+            const data = await res.json();
+            setCategories(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        async function fetchCategories() {
-            const baseUrl =
-                typeof window === "undefined" ? process.env.NEXT_PUBLIC_BASE_URL : "";
-
-            try {
-                const res = await fetch(`${baseUrl}/api/categories`);
-                if (!res.ok) throw new Error("Failed to fetch categories");
-                const data = await res.json();
-                setCategories(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-
         fetchCategories();
     }, []);
+
+    const handleVoteSuccess = async () => {
+        await fetchCategories(); // Refresh all categories after successful vote verification
+    };
+
+    // New handler to fetch fresh data for a single category when "See Results" clicked
+    const handleToggleResults = async (index, categoryId) => {
+        if (openIndex === index) {
+            // Close the results if already open
+            setOpenIndex(null);
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/categories/${categoryId}`);
+            if (!res.ok) throw new Error("Failed to fetch category results");
+            const data = await res.json();
+
+            setCategories((prev) => {
+                const newCats = [...prev];
+                newCats[index] = data; // Replace the category at index with fresh data
+                return newCats;
+            });
+
+            setOpenIndex(index);
+        } catch (error) {
+            console.error(error);
+            // Optional: set error state to show user
+        }
+    };
 
     return (
         <section className="max-w-7xl mx-auto px-4">
@@ -69,7 +96,7 @@ export default function Categories() {
 
                                 <div className="flex flex-col gap-4 mt-auto">
                                     <button
-                                        onClick={() => setSelectedCategory(cat)} // Trigger modal
+                                        onClick={() => setSelectedCategory(cat)}
                                         className="bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition"
                                     >
                                         Vote Now
@@ -78,9 +105,7 @@ export default function Categories() {
                                     <div className="text-sm rounded-md border border-gray-200 px-4 py-2 bg-gray-50 transition-all">
                                         <button
                                             className="w-full text-left cursor-pointer text-[#ff7d1c] font-semibold"
-                                            onClick={() =>
-                                                setOpenIndex(openIndex === index ? null : index)
-                                            }
+                                            onClick={() => handleToggleResults(index, cat._id)}
                                         >
                                             See Results
                                         </button>
@@ -115,6 +140,7 @@ export default function Categories() {
                 isOpen={!!selectedCategory}
                 onClose={() => setSelectedCategory(null)}
                 category={selectedCategory}
+                onVoteSuccess={handleVoteSuccess} // Trigger category refresh after vote
             />
         </section>
     );

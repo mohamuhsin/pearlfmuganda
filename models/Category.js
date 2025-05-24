@@ -1,15 +1,28 @@
 import mongoose from "mongoose";
 
-const CategorySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
+const CategorySchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        },
     },
-    image: {
-        type: String, // This will store the image path (e.g., "/images/categories/tourism.jpg")
-        required: true, // Optional: remove `required` if some categories don't need images
-    },
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
+    }
+);
+
+// Define virtual field for companies
+CategorySchema.virtual("companies", {
+    ref: "Company",
+    localField: "_id",
+    foreignField: "category",
 });
 
 const Category =

@@ -6,14 +6,18 @@ export async function GET() {
     await connectDB();
 
     try {
-        // Fetch categories with their companies embedded or separately fetched
         const categories = await Category.find({}).lean();
 
-        // For each category, fetch related companies (assuming you have a ref)
         const categoriesWithCompanies = await Promise.all(
             categories.map(async (cat) => {
                 const companies = await Company.find({ category: cat._id }).lean();
-                return { ...cat, companies };
+
+                const companiesWithVotes = companies.map((company) => ({
+                    ...company,
+                    voteCount: company.votes || 0,
+                }));
+
+                return { ...cat, companies: companiesWithVotes };
             })
         );
 
@@ -21,6 +25,7 @@ export async function GET() {
             status: 200,
         });
     } catch (error) {
+        console.error("Fetch categories error:", error);
         return new Response(
             JSON.stringify({ error: "Failed to fetch categories" }),
             { status: 500 }

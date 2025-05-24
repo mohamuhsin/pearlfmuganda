@@ -5,7 +5,12 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import VerifyOtpModal from "./VerifyOtpModal";
 
-export default function VoteModal({ isOpen, onClose, category }) {
+export default function VoteModal({
+    isOpen,
+    onClose,
+    category,
+    onVoteSuccess,
+}) {
     const [phone, setPhone] = useState("");
     const [companyId, setCompanyId] = useState("");
     const [loading, setLoading] = useState(false);
@@ -21,15 +26,28 @@ export default function VoteModal({ isOpen, onClose, category }) {
                 onClose();
             }
         };
+
         if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside);
             document.body.style.overflow = "hidden";
         }
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
             document.body.style.overflow = "auto";
         };
     }, [isOpen, onClose]);
+
+    // Reset state when modal closes
+    useEffect(() => {
+        if (!isOpen) {
+            setPhone("");
+            setCompanyId("");
+            setError(null);
+            setVoteId(null);
+            setShowVerifyModal(false);
+        }
+    }, [isOpen]);
 
     const handleSubmit = async () => {
         if (!phone || !companyId) {
@@ -70,6 +88,11 @@ export default function VoteModal({ isOpen, onClose, category }) {
         setShowVerifyModal(false);
         setVoteId(null);
         onClose();
+    };
+
+    const handleVerificationSuccess = () => {
+        closeVerifyModal();
+        if (onVoteSuccess) onVoteSuccess();
     };
 
     if (!isOpen || !category) return null;
@@ -157,6 +180,7 @@ export default function VoteModal({ isOpen, onClose, category }) {
                 isOpen={showVerifyModal}
                 onClose={closeVerifyModal}
                 voteId={voteId}
+                onVerifySuccess={handleVerificationSuccess}
             />
         </>
     );

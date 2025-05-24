@@ -14,11 +14,25 @@ export async function POST(req) {
     }
 
     try {
+        // Check if a verified vote already exists for this phone and category
+        const existingVote = await Vote.findOne({
+            phone,
+            category: categoryId,
+            status: "verified",
+        });
+
+        if (existingVote) {
+            return new Response(
+                JSON.stringify({ error: "You have already voted in this category" }),
+                { status: 409 }
+            );
+        }
+
         // Generate a 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expires in 5 mins
 
-        // Upsert vote with OTP info
+        // Upsert vote with OTP info; only overwrite if not verified yet
         const vote = await Vote.findOneAndUpdate(
             { phone, category: categoryId },
             {
@@ -48,12 +62,6 @@ export async function POST(req) {
             status: 200,
         });
     } catch (error) {
-        if (error.code === 11000) {
-            return new Response(
-                JSON.stringify({ error: "You have already voted in this category" }),
-                { status: 409 }
-            );
-        }
         console.error("Request OTP error:", error);
         return new Response(JSON.stringify({ error: "Something went wrong" }), {
             status: 500,
