@@ -3,9 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
-    const [otp, setOtp] = useState("");
+    const [otpCode, setOtpCode] = useState("");
     const [loading, setLoading] = useState(false);
+    const [resendLoading, setResendLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [timer, setTimer] = useState(60);
     const modalRef = useRef();
 
     useEffect(() => {
@@ -24,9 +26,17 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
         };
     }, [isOpen, onClose]);
 
+    useEffect(() => {
+        let interval;
+        if (isOpen && timer > 0) {
+            interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isOpen, timer]);
+
     const handleVerify = async () => {
-        if (!otp) {
-            setError("Please enter the OTP.");
+        if (!otpCode || !voteId) {
+            setError("Missing OTP or vote ID.");
             return;
         }
 
@@ -37,7 +47,7 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
             const res = await fetch("/api/verify_otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ voteId, otp }),
+                body: JSON.stringify({ voteId, otpCode }),
             });
 
             const data = await res.json();
@@ -52,6 +62,31 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
             setError("An error occurred. Please try again.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleResendOtp = async () => {
+        setError(null);
+        setResendLoading(true);
+
+        try {
+            const res = await fetch("/api/resend_otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ voteId }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.error || "Failed to resend OTP.");
+            } else {
+                setTimer(60);
+            }
+        } catch {
+            setError("An error occurred. Please try again.");
+        } finally {
+            setResendLoading(false);
         }
     };
 
@@ -81,8 +116,8 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
                     </label>
                     <input
                         type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value)}
                         placeholder="Enter the OTP sent to your phone"
                         className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
                     />
@@ -93,10 +128,24 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
                 <button
                     onClick={handleVerify}
                     disabled={loading}
-                    className="w-full bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition"
+                    className="w-full bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition mb-3"
                 >
                     {loading ? "Verifying..." : "Verify OTP"}
                 </button>
+
+                <div className="text-center text-sm text-gray-600">
+                    {timer > 0 ? (
+                        <span>Resend OTP in {timer}s</span>
+                    ) : (
+                        <button
+                            onClick={handleResendOtp}
+                            disabled={resendLoading}
+                            className="text-[#ff7d1c] font-semibold hover:underline"
+                        >
+                            {resendLoading ? "Resending..." : "Resend OTP"}
+                        </button>
+                    )}
+                </div>
 
                 <footer className="text-xs text-gray-400 mt-6 text-center">
                     Powered by{" "}

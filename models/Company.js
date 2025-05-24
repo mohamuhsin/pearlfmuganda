@@ -12,11 +12,17 @@ const companySchema = new mongoose.Schema(
             ref: "Category",
             required: true,
         },
+        votes: {
+            type: Number,
+            default: 0,
+        },
     },
     {
         timestamps: true,
     }
 );
 
-export default mongoose.models.Company ||
-    mongoose.model("Company", companySchema);
+const Company =
+    mongoose.models.Company || mongoose.model("Company", companySchema);
+
+export default Company;
