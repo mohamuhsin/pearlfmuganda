@@ -38,7 +38,6 @@ export default function VoteModal({
         };
     }, [isOpen, onClose]);
 
-    // Reset state when modal closes
     useEffect(() => {
         if (!isOpen) {
             setPhone("");
@@ -72,7 +71,7 @@ export default function VoteModal({
             const data = await res.json();
 
             if (!res.ok || !data.voteId) {
-                setError(data.error || "Failed to send OTP");
+                setError(data.error || "Failed to send OTP, Check your network");
             } else {
                 setVoteId(data.voteId);
                 setShowVerifyModal(true);
@@ -97,6 +96,8 @@ export default function VoteModal({
 
     if (!isOpen || !category) return null;
 
+    const selectedCompany = category.companies?.find((c) => c._id === companyId);
+
     return (
         <>
             {!showVerifyModal && (
@@ -117,7 +118,6 @@ export default function VoteModal({
                             Vote in {category.name}
                         </h2>
 
-                        {/* Company Dropdown */}
                         <div className="mb-5">
                             <label className="block text-sm font-semibold text-gray-600 mb-1">
                                 Select Company
@@ -136,7 +136,6 @@ export default function VoteModal({
                             </select>
                         </div>
 
-                        {/* Phone Input */}
                         <div className="mb-5">
                             <label className="block text-sm font-semibold text-gray-600 mb-1">
                                 Phone Number
@@ -149,10 +148,8 @@ export default function VoteModal({
                             />
                         </div>
 
-                        {/* Error */}
                         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-                        {/* Submit Button */}
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
@@ -176,12 +173,15 @@ export default function VoteModal({
                 </div>
             )}
 
-            <VerifyOtpModal
-                isOpen={showVerifyModal}
-                onClose={closeVerifyModal}
-                voteId={voteId}
-                onVerifySuccess={handleVerificationSuccess}
-            />
+            {showVerifyModal && (
+                <VerifyOtpModal
+                    isOpen={true}
+                    onClose={closeVerifyModal}
+                    voteId={voteId}
+                    categoryName={category.name}
+                    companyName={selectedCompany?.name || ""}
+                />
+            )}
         </>
     );
 }
