@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 
 // Metadata for SEO
 export const metadata = {
-  title: "Pearl Of Africa Radio",
+  title: "Pearl Fm Uganda",
   description: "Ekkula Ly'omuntu W'abulijjo",
 };
 
