@@ -54,14 +54,6 @@ const categories = [
         name: "Herbal Researcher Excellence Award",
         image: "/categories/ekkula-awards.jpeg",
     },
-    {
-        name: "Islamic Primary School Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
-    },
-    {
-        name: "Islamic Secondary School Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
-    },
 ];
 
 async function seed() {
