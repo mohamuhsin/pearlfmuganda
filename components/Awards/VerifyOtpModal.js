@@ -1,14 +1,25 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import ThankYouModal from "./ThankYouModal"; // Adjust path if needed
 
-export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
+export default function VerifyOtpModal({
+    isOpen,
+    onClose,
+    voteId,
+    categoryName,
+    companyName,
+}) {
     const [otpCode, setOtpCode] = useState("");
     const [loading, setLoading] = useState(false);
     const [resendLoading, setResendLoading] = useState(false);
     const [error, setError] = useState(null);
     const [timer, setTimer] = useState(60);
+    const [verified, setVerified] = useState(false);
+
     const modalRef = useRef();
+    const router = useRouter();
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -55,8 +66,7 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
             if (!res.ok) {
                 setError(data.error || "OTP verification failed.");
             } else {
-                alert("OTP verified! Your vote has been recorded.");
-                onClose();
+                setVerified(true);
             }
         } catch {
             setError("An error occurred. Please try again.");
@@ -90,75 +100,91 @@ export default function VerifyOtpModal({ isOpen, onClose, voteId }) {
         }
     };
 
-    if (!isOpen) return null;
+    if (!isOpen && !verified) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8 backdrop-blur-sm transition-all duration-300">
-            <div
-                ref={modalRef}
-                className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-2xl shadow-2xl relative animate-fade-in"
-            >
-                <button
-                    onClick={onClose}
-                    className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl transition hover:scale-110"
-                    aria-label="Close modal"
-                >
-                    &times;
-                </button>
-
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-                    Verify OTP
-                </h2>
-
-                <div className="mb-5">
-                    <label className="block text-sm font-semibold text-gray-600 mb-1">
-                        Enter OTP
-                    </label>
-                    <input
-                        type="text"
-                        value={otpCode}
-                        onChange={(e) => setOtpCode(e.target.value)}
-                        placeholder="Enter the OTP sent to your phone"
-                        className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
-                    />
-                </div>
-
-                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-                <button
-                    onClick={handleVerify}
-                    disabled={loading}
-                    className="w-full bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition mb-3"
-                >
-                    {loading ? "Verifying..." : "Verify OTP"}
-                </button>
-
-                <div className="text-center text-sm text-gray-600">
-                    {timer > 0 ? (
-                        <span>Resend OTP in {timer}s</span>
-                    ) : (
-                        <button
-                            onClick={handleResendOtp}
-                            disabled={resendLoading}
-                            className="text-[#ff7d1c] font-semibold hover:underline"
-                        >
-                            {resendLoading ? "Resending..." : "Resend OTP"}
-                        </button>
-                    )}
-                </div>
-
-                <footer className="text-xs text-gray-400 mt-6 text-center">
-                    Powered by{" "}
-                    <a
-                        href="https://iventics.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
+        <>
+            {!verified && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8 backdrop-blur-sm">
+                    <div
+                        ref={modalRef}
+                        className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-2xl shadow-2xl relative animate-fade-in"
                     >
-                        Iventics Technologies
-                    </a>
-                </footer>
-            </div>
-        </div>
+                        <button
+                            onClick={onClose}
+                            className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl transition hover:scale-110"
+                            aria-label="Close modal"
+                        >
+                            &times;
+                        </button>
+
+                        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+                            Verify OTP
+                        </h2>
+
+                        <div className="mb-5">
+                            <label className="block text-sm font-semibold text-gray-600 mb-1">
+                                Enter OTP
+                            </label>
+                            <input
+                                type="text"
+                                value={otpCode}
+                                onChange={(e) => setOtpCode(e.target.value)}
+                                placeholder="Enter the OTP sent to your phone"
+                                className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
+                            />
+                        </div>
+
+                        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+                        <button
+                            onClick={handleVerify}
+                            disabled={loading}
+                            className="w-full bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition mb-3"
+                        >
+                            {loading ? "Verifying..." : "Verify OTP"}
+                        </button>
+
+                        <div className="text-center text-sm text-gray-600">
+                            {timer > 0 ? (
+                                <span>Resend OTP in {timer}s</span>
+                            ) : (
+                                <button
+                                    onClick={handleResendOtp}
+                                    disabled={resendLoading}
+                                    className="text-[#ff7d1c] font-semibold hover:underline"
+                                >
+                                    {resendLoading ? "Resending..." : "Resend OTP"}
+                                </button>
+                            )}
+                        </div>
+
+                        <footer className="text-xs text-gray-400 mt-6 text-center">
+                            Powered by{" "}
+                            <a
+                                href="https://iventics.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500 hover:underline"
+                            >
+                                Iventics Technologies
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+            )}
+
+            {verified && (
+                <ThankYouModal
+                    isOpen={true}
+                    categoryName={categoryName}
+                    companyName={companyName}
+                    onClose={() => {
+                        setVerified(false); // Reset verified to hide thank you modal
+                        onClose(); // Close the VerifyOtpModal as well
+                    }}
+                />
+            )}
+        </>
     );
 }

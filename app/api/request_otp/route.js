@@ -53,9 +53,12 @@ export async function POST(req) {
             await sendOtpSms(phone, otp);
         } catch (smsError) {
             console.error("Failed to send OTP SMS:", smsError);
-            return new Response(JSON.stringify({ error: "Failed to send OTP SMS" }), {
-                status: 500,
-            });
+            return new Response(
+                JSON.stringify({ error: "Failed to send OTP SMS, Try Again!" }),
+                {
+                    status: 500,
+                }
+            );
         }
 
         return new Response(JSON.stringify({ success: true, voteId: vote._id }), {
