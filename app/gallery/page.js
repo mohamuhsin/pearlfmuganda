@@ -1,13 +1,12 @@
-import Navbar from "@/components/Navbar/Navbar";
 import PageHeader from "@/components/Awards/Header";
-import AwardsCategories from "@/components/Awards/Categories";
 
 export const metadata = {
-    title: "Ekkula Awards",
-    description: "Celebrate Brand Excellence",
+    title: "Gallery",
+    description:
+        "A collection of photos and videos showcasing our work and moments.",
 };
 
-export default function AwardsPage() {
+export default function GalleryPage() {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Top Navigation */}
@@ -15,15 +14,13 @@ export default function AwardsPage() {
 
             {/* Hero Section */}
             <PageHeader
-                title="Ekkula Awards 2025"
-                description="Celebrate brand excellence. Honor achievement. Inspire greatness."
+                title="Gallery"
+                description="Moments. Connection. Devotion."
             />
 
             {/* Main Content */}
             <main className="flex-grow px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <section className="py-14">
-                    <AwardsCategories />
-                </section>
+                <section className="py-14"></section>
             </main>
         </div>
     );

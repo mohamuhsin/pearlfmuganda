@@ -75,8 +75,8 @@ export default function Follow() {
                     <nav className="space-y-4">
                         {[
                             { href: "/about", label: "About Us" },
-                            { href: "/contact", label: "Contact" },
                             { href: "/services", label: "Services" },
+                            { href: "/contact", label: "Contact" },
                             { href: "/gallery", label: "Gallery" },
                         ].map(({ href, label }) => (
                             <Link
