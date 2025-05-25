@@ -1,10 +1,10 @@
 import {
     FaHandHoldingHeart,
-    FaAward,
     FaCalendarAlt,
     FaCreditCard,
     FaStoreAlt,
     FaMosque,
+    FaTrophy,
 } from "react-icons/fa";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ const cards = [
     {
         title: "Charity",
         icon: <FaHandHoldingHeart size={40} />,
-        link: "/charity",
+        link: "/sadaqah",
     },
     {
         title: "Halal Business",
@@ -27,10 +27,10 @@ const cards = [
     },
     { title: "Events", icon: <FaCalendarAlt size={40} />, link: "/events" },
     {
-        title: "Awards",
-        icon: <FaAward size={40} />,
+        title: "Ekkula Awards",
+        icon: <FaTrophy size={40} />,
         link: "/awards",
-    }
+    },
 ];
 
 export default function HeroContent() {
