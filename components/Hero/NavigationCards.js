@@ -3,7 +3,7 @@ import {
     FaCalendarAlt,
     FaCreditCard,
     FaStoreAlt,
-    FaMosque,
+    FaPlayCircle,
     FaTrophy,
 } from "react-icons/fa";
 import Link from "next/link";
@@ -14,7 +14,11 @@ const cards = [
         icon: <FaCreditCard size={40} />,
         link: "/services",
     },
-    { title: "Dawa", icon: <FaMosque size={40} />, link: "/dawa" },
+    {
+        title: "Dawah",
+        icon: <FaPlayCircle size={40} />, // play icon for videos
+        link: "/dawah",
+    },
     {
         title: "Charity",
         icon: <FaHandHoldingHeart size={40} />,
