@@ -1,4 +1,4 @@
-export default function PageHeader({ title }) {
+export default function PageHeader({ title, description }) {
     return (
         <header className="relative bg-gradient-to-br from-[#2d2d30] to-[#180f4b] text-white min-h-[400px] flex items-center justify-center px-4 overflow-hidden shadow-xl">
             {/* Dark Elegant Crosshatch Pattern */}
@@ -59,7 +59,7 @@ export default function PageHeader({ title }) {
                     {title}
                 </h1>
                 <p className="mt-4 text-base sm:text-lg md:text-xl text-white/70">
-                    Celebrate brand excellence. Honor achievement. Inspire greatness.
+                    {description}
                 </p>
             </div>
         </header>
