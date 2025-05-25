@@ -25,8 +25,8 @@ export default function Follow() {
                         Let&apos;s Connect
                     </h2>
                     <p className="text-gray-400 text-base sm:text-lg md:text-xl mb-10 max-w-prose">
-                        Follow us on social media for the latest updates, shows, and
-                        behind-the-scenes moments.
+                        Pearl FM brings you news, Islamic values, and uplifting edutainment
+                        — follow us and be part of the journey.
                     </p>
 
                     <div className="flex flex-wrap gap-6 sm:gap-8">
