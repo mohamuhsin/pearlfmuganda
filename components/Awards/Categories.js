@@ -90,8 +90,7 @@ export default function Categories() {
                             <div className="p-6 flex flex-col justify-between flex-grow">
                                 <h3
                                     id={`category-title-${index}`}
-                                    className="text-xl font-semibold text-center text-gray-800 mb-6 min-h-[60px] truncate"
-                                    title={cat.name}
+                                    className="text-xl font-semibold text-center text-gray-800 mb-6 min-h-[60px]"
                                 >
                                     {cat.name}
                                 </h3>
