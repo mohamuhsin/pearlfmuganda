@@ -12,7 +12,7 @@ export default function DawahPage() {
             <header className="py-6">{/*<Navbar />*/}</header>
 
             {/* Hero Section */}
-            <PageHeader title="Dawa" description="Faith. Guidance. Unity." />
+            <PageHeader title="Dawah" description="Faith. Guidance. Unity." />
 
             {/* Main Content */}
             <main className="flex-grow px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
