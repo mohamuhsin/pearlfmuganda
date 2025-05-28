@@ -29,13 +29,11 @@ export default function Categories() {
     }, []);
 
     const handleVoteSuccess = async () => {
-        await fetchCategories(); // Refresh all categories after successful vote verification
+        await fetchCategories();
     };
 
-    // New handler to fetch fresh data for a single category when "See Results" clicked
     const handleToggleResults = async (index, categoryId) => {
         if (openIndex === index) {
-            // Close the results if already open
             setOpenIndex(null);
             return;
         }
@@ -47,14 +45,13 @@ export default function Categories() {
 
             setCategories((prev) => {
                 const newCats = [...prev];
-                newCats[index] = data; // Replace the category at index with fresh data
+                newCats[index] = data;
                 return newCats;
             });
 
             setOpenIndex(index);
         } catch (error) {
             console.error(error);
-            // Optional: set error state to show user
         }
     };
 
@@ -72,11 +69,12 @@ export default function Categories() {
             )}
 
             {!loading && !error && (
-                <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                     {categories.map((cat, index) => (
-                        <div
+                        <article
                             key={cat._id}
                             className="self-start rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col hover:shadow-2xl transition duration-300"
+                            aria-labelledby={`category-title-${index}`}
                         >
                             <div className="relative w-full h-56 md:h-64 lg:h-72">
                                 <Image
@@ -90,7 +88,11 @@ export default function Categories() {
                             </div>
 
                             <div className="p-6 flex flex-col justify-between flex-grow">
-                                <h3 className="text-xl font-semibold text-center text-gray-800 mb-6 min-h-[60px]">
+                                <h3
+                                    id={`category-title-${index}`}
+                                    className="text-xl font-semibold text-center text-gray-800 mb-6 min-h-[60px] truncate"
+                                    title={cat.name}
+                                >
                                     {cat.name}
                                 </h3>
 
@@ -102,27 +104,71 @@ export default function Categories() {
                                         Vote Now
                                     </button>
 
-                                    <div className="text-sm rounded-md border border-gray-200 px-4 py-2 bg-gray-50 transition-all">
+                                    <div
+                                        className="text-sm rounded-md border border-gray-200 px-4 py-2 bg-gray-50 transition-all"
+                                        aria-live="polite"
+                                    >
                                         <button
-                                            className="w-full text-left cursor-pointer text-[#ff7d1c] font-semibold"
+                                            className="w-full flex items-center justify-between cursor-pointer text-[#ff7d1c] font-semibold"
                                             onClick={() => handleToggleResults(index, cat._id)}
+                                            aria-expanded={openIndex === index}
+                                            aria-controls={`results-list-${index}`}
                                         >
-                                            See Results
+                                            <span>See Results</span>
+                                            <svg
+                                                className={`w-5 h-5 transition-transform duration-300 ease-in-out ${openIndex === index ? "rotate-90" : "rotate-0"
+                                                    }`}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M9 5l7 7-7 7"
+                                                ></path>
+                                            </svg>
                                         </button>
+
                                         {openIndex === index && (
-                                            <ul className="mt-2 divide-y divide-gray-200">
+                                            <ul
+                                                id={`results-list-${index}`}
+                                                className="mt-3 divide-y divide-gray-200"
+                                                role="list"
+                                            >
                                                 {cat.companies?.length > 0 ? (
-                                                    cat.companies.map((company) => (
-                                                        <li
-                                                            key={company._id}
-                                                            className="flex justify-between py-1 text-gray-700"
-                                                        >
-                                                            <span>{company.name}</span>
-                                                            <span>{company.voteCount || 0} votes</span>
-                                                        </li>
-                                                    ))
+                                                    cat.companies
+                                                        .slice()
+                                                        .sort(
+                                                            (a, b) => (b.voteCount || 0) - (a.voteCount || 0)
+                                                        )
+                                                        .map((company, idx) => (
+                                                            <li
+                                                                key={company._id}
+                                                                className={`flex justify-between items-center py-3 ${idx !== cat.companies.length - 1
+                                                                    ? "border-b border-gray-200"
+                                                                    : ""
+                                                                    } hover:bg-gray-100 rounded transition`}
+                                                                tabIndex={0}
+                                                                aria-label={`${company.name}, ${company.voteCount || 0
+                                                                    } votes`}
+                                                            >
+                                                                <span
+                                                                    className="truncate flex-1 pr-4 font-medium text-gray-800"
+                                                                    title={company.name}
+                                                                >
+                                                                    {company.name}
+                                                                </span>
+                                                                <span className="w-20 text-right flex-shrink-0 text-gray-600">
+                                                                    {company.voteCount || 0} votes
+                                                                </span>
+                                                            </li>
+                                                        ))
                                                 ) : (
-                                                    <li className="text-gray-500 py-2">
+                                                    <li className="text-gray-500 py-3 text-center">
                                                         No companies yet.
                                                     </li>
                                                 )}
@@ -131,7 +177,7 @@ export default function Categories() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </article>
                     ))}
                 </div>
             )}
@@ -140,7 +186,7 @@ export default function Categories() {
                 isOpen={!!selectedCategory}
                 onClose={() => setSelectedCategory(null)}
                 category={selectedCategory}
-                onVoteSuccess={handleVoteSuccess} // Trigger category refresh after vote
+                onVoteSuccess={handleVoteSuccess}
             />
         </section>
     );
