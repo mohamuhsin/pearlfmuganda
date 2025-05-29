@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import PhoneInput from "react-phone-number-input";
+import PhoneInput, { getCountries } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import VerifyOtpModal from "./VerifyOtpModal";
 
@@ -19,6 +19,9 @@ export default function VoteModal({
     const [showVerifyModal, setShowVerifyModal] = useState(false);
 
     const modalRef = useRef();
+
+    // Filter countries to exclude "International"
+    const countries = getCountries().filter((country) => country !== "ZZ"); // "ZZ" is usually the code for International
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -141,10 +144,18 @@ export default function VoteModal({
                                 Phone Number
                             </label>
                             <PhoneInput
+                                countries={countries}
+                                defaultCountry="UG"
+                                international
+                                withCountryCallingCode
                                 value={phone}
                                 onChange={setPhone}
-                                defaultCountry="UG"
-                                className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
+                                inputComponent={(props) => (
+                                    <input
+                                        {...props}
+                                        className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
+                                    />
+                                )}
                             />
                         </div>
 
@@ -180,6 +191,7 @@ export default function VoteModal({
                     voteId={voteId}
                     categoryName={category.name}
                     companyName={selectedCompany?.name || ""}
+                    onVerificationSuccess={handleVerificationSuccess}
                 />
             )}
         </>
