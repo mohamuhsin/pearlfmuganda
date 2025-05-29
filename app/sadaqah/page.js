@@ -13,7 +13,7 @@ export default function SadaqahPage() {
 
             {/* Hero Section */}
             <PageHeader
-                title="Doors Of Sadaqah"
+                title="Doors of Sadaqah"
                 description="Charity for the sake of Allah."
             />
 

@@ -132,47 +132,53 @@ export default function Categories() {
                                             </svg>
                                         </button>
 
-                                        {openIndex === index && (
-                                            <ul
-                                                id={`results-list-${index}`}
-                                                className="mt-3 divide-y divide-gray-200"
-                                                role="list"
-                                            >
-                                                {cat.companies?.length > 0 ? (
-                                                    cat.companies
-                                                        .slice()
-                                                        .sort(
-                                                            (a, b) => (b.voteCount || 0) - (a.voteCount || 0)
-                                                        )
-                                                        .map((company, idx) => (
-                                                            <li
-                                                                key={company._id}
-                                                                className={`flex justify-between items-center py-3 ${idx !== cat.companies.length - 1
-                                                                    ? "border-b border-gray-200"
-                                                                    : ""
-                                                                    } hover:bg-gray-100 rounded transition`}
-                                                                tabIndex={0}
-                                                                aria-label={`${company.name}, ${company.voteCount || 0
-                                                                    } votes`}
-                                                            >
-                                                                <span
-                                                                    className="truncate flex-1 pr-4 font-medium text-gray-800"
-                                                                    title={company.name}
+                                        <div
+                                            className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index
+                                                ? "max-h-[1000px] opacity-100 mt-4"
+                                                : "max-h-0 opacity-0 mt-0"
+                                                }`}
+                                            aria-hidden={openIndex !== index}
+                                        >
+                                            {cat.companies?.length > 0 ? (
+                                                <>
+                                                    <div className="flex justify-between px-2 text-xs text-gray-500 font-semibold uppercase border-b border-gray-200 pb-1 mb-3 tracking-wide">
+                                                        <span className="w-3/4">Companies</span>
+                                                        <span className="w-1/4 text-right">Votes</span>
+                                                    </div>
+                                                    <ul className="space-y-0">
+                                                        {cat.companies
+                                                            .slice()
+                                                            .sort(
+                                                                (a, b) =>
+                                                                    (b.voteCount || 0) - (a.voteCount || 0)
+                                                            )
+                                                            .map((company, idx) => (
+                                                                <li
+                                                                    key={company._id}
+                                                                    className={`flex justify-between items-center py-2 px-2 rounded hover:bg-gray-100 transition ${idx !== cat.companies.length - 1
+                                                                        ? "border-b border-gray-300"
+                                                                        : ""
+                                                                        }`}
                                                                 >
-                                                                    {company.name}
-                                                                </span>
-                                                                <span className="w-20 text-right flex-shrink-0 text-gray-600">
-                                                                    {company.voteCount || 0} votes
-                                                                </span>
-                                                            </li>
-                                                        ))
-                                                ) : (
-                                                    <li className="text-gray-500 py-3 text-center">
-                                                        No companies yet.
-                                                    </li>
-                                                )}
-                                            </ul>
-                                        )}
+                                                                    <div
+                                                                        title={company.name}
+                                                                        className="truncate font-medium text-gray-800 w-3/4"
+                                                                    >
+                                                                        {company.name}
+                                                                    </div>
+                                                                    <div className="text-right text-gray-700 font-semibold w-1/4">
+                                                                        {company.voteCount || 0}
+                                                                    </div>
+                                                                </li>
+                                                            ))}
+                                                    </ul>
+                                                </>
+                                            ) : (
+                                                <p className="text-gray-500 py-3 text-center">
+                                                    No companies yet.
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

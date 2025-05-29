@@ -14,7 +14,7 @@ export default function ThankYouModal({
     const modalRef = useRef();
     const closeBtnRef = useRef();
 
-    const shareMessage = `I just voted for ${companyName} in the ${categoryName} category in the Ekkula Awards, brought to us by Pearl FM Radio. click here 👉 https://pearlfmuganda.com/award to vote for your favorite company!`;
+    const shareMessage = `I just voted for ${companyName} in the ${categoryName} category in the Ekkula Awards, brought to us by Pearl FM Radio. click here 👉 https://pearlfmuganda.com/awards to vote for your favorite company!`;
 
     // Close modal when clicking outside
     useEffect(() => {
@@ -89,7 +89,7 @@ export default function ThankYouModal({
                 await navigator.share({
                     title: "Ekkula Awards Vote",
                     text: shareMessage,
-                    url: "https://pearlfmuganda.com/award",
+                    url: "https://pearlfmuganda.com/awards",
                 });
             } catch (err) {
                 console.error("Share failed:", err);
@@ -167,7 +167,8 @@ export default function ThankYouModal({
                     >
                         👉 Ekkula Awards
                     </a>
-                    , brought to you by Pearl FM Radio. Join me and make your voice heard!
+                    , brought to you by Pearl FM Radio. Click the link above to vote to
+                    your favorite company!
                 </div>
 
                 {shareError && (
