@@ -142,7 +142,7 @@ export default function Categories() {
                                             {cat.companies?.length > 0 ? (
                                                 <>
                                                     <div className="flex justify-between px-2 text-xs text-gray-500 font-semibold uppercase border-b border-gray-200 pb-1 mb-3 tracking-wide">
-                                                        <span className="w-3/4">Companies</span>
+                                                        <span className="w-3/4">Nominees</span>
                                                         <span className="w-1/4 text-right">Votes</span>
                                                     </div>
                                                     <ul className="space-y-0">
