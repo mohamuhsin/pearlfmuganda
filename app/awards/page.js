@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar/Navbar";
 import PageHeader from "@/components/Awards/Header";
 import AwardsCategories from "@/components/Awards/Categories";
+import PageViews from "@/components/Page Views/PageViews";
 
 export const metadata = {
     title: "Ekkula Awards",
@@ -25,6 +26,11 @@ export default function AwardsPage() {
                     <AwardsCategories />
                 </section>
             </main>
+
+            {/* Page Views at the Bottom */}
+            <footer className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-6">
+                <PageViews />
+            </footer>
         </div>
     );
 }
