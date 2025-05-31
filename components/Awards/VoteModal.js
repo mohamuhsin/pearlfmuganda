@@ -20,8 +20,7 @@ export default function VoteModal({
 
     const modalRef = useRef();
 
-    // Filter countries to exclude "International"
-    const countries = getCountries().filter((country) => country !== "ZZ"); // "ZZ" is usually the code for International
+    const countries = getCountries().filter((country) => country !== "ZZ");
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -74,7 +73,7 @@ export default function VoteModal({
             const data = await res.json();
 
             if (!res.ok || !data.voteId) {
-                setError(data.error || "Failed to send OTP, Check your network");
+                setError(data.error || "Failed to send OTP. Check your network.");
             } else {
                 setVoteId(data.voteId);
                 setShowVerifyModal(true);
@@ -149,13 +148,12 @@ export default function VoteModal({
                                 international
                                 withCountryCallingCode
                                 value={phone}
-                                onChange={setPhone}
-                                inputComponent={(props) => (
-                                    <input
-                                        {...props}
-                                        className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
-                                    />
-                                )}
+                                onChange={(value) => {
+                                    if (!value || value.length <= 15) {
+                                        setPhone(value);
+                                    }
+                                }}
+                                className="custom-phone-input"
                             />
                         </div>
 
