@@ -26,13 +26,7 @@ export default function AwardsPage() {
             {/* Main Content */}
             <main className="flex-grow px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <section className="py-14">
-                    {/*<AwardsCategories />*/}
-
-                    {/* Notice Message */}
-                    <div className="mt-6 text-sm text-red-600">
-                        There’s an issue with OTP delivery. We are currently fixing it —
-                        please try again by 10 PM.
-                    </div>
+                    <AwardsCategories />
                 </section>
             </main>
 

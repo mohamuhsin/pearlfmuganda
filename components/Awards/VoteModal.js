@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect, forwardRef } from "react";
-import PhoneInput, { getCountries } from "react-phone-number-input";
+import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import VerifyOtpModal from "./VerifyOtpModal";
 
-function isValidE164(phone) {
-    return /^\+[1-9]\d{1,14}$/.test(phone);
+function isValidUgandanPhone(phone) {
+    return /^\+2567\d{8}$/.test(phone);
 }
 
-// Custom styled input component
 const StyledPhoneInput = forwardRef(function StyledPhoneInput(props, ref) {
     return (
         <input
@@ -34,7 +33,6 @@ export default function VoteModal({
     const [showVerifyModal, setShowVerifyModal] = useState(false);
 
     const modalRef = useRef();
-    const countries = getCountries().filter((country) => country !== "ZZ");
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -65,13 +63,15 @@ export default function VoteModal({
     }, [isOpen]);
 
     const handleSubmit = async () => {
+        if (loading) return;
+
         if (!phone || !companyId) {
             setError("Phone number and company are required.");
             return;
         }
 
-        if (!isValidE164(phone)) {
-            setError("Enter a valid international phone number (e.g. +2567XXXXXXX).");
+        if (!isValidUgandanPhone(phone)) {
+            setError("Only Ugandan numbers starting with +2567XXXXXXXX are allowed.");
             return;
         }
 
@@ -162,9 +162,9 @@ export default function VoteModal({
                                 Phone Number
                             </label>
                             <PhoneInput
-                                countries={countries}
                                 defaultCountry="UG"
-                                international
+                                countries={["UG"]}
+                                international={false}
                                 withCountryCallingCode
                                 value={phone}
                                 onChange={(value) => {
@@ -174,6 +174,9 @@ export default function VoteModal({
                                 }}
                                 inputComponent={StyledPhoneInput}
                             />
+                            <small className="text-gray-500 text-xs mt-1">
+                                Only Ugandan phone numbers (e.g. +2567XXXXXXXX)
+                            </small>
                         </div>
 
                         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
