@@ -12,7 +12,10 @@ export default function AwardsPage() {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Top Navigation */}
-            <header className="py-6">{/*<Navbar />*/}</header>
+            <header className="py-6">
+                {/* Uncomment the line below when Navbar is ready */}
+                {/* <Navbar /> */}
+            </header>
 
             {/* Hero Section */}
             <PageHeader
@@ -23,11 +26,17 @@ export default function AwardsPage() {
             {/* Main Content */}
             <main className="flex-grow px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <section className="py-14">
-                    <AwardsCategories />
+                    {/*<AwardsCategories />*/}
+
+                    {/* Notice Message */}
+                    <div className="mt-6 text-sm text-red-600">
+                        There’s an issue with OTP delivery. We are currently fixing it —
+                        please try again by 10 PM.
+                    </div>
                 </section>
             </main>
 
-            {/* Page Views at the Bottom */}
+            {/* Footer */}
             <footer className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-6">
                 <PageViews />
             </footer>
