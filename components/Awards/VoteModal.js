@@ -1,9 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
 import PhoneInput, { getCountries } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import VerifyOtpModal from "./VerifyOtpModal";
+
+function isValidE164(phone) {
+    return /^\+[1-9]\d{1,14}$/.test(phone);
+}
+
+// Custom styled input component
+const StyledPhoneInput = forwardRef(function StyledPhoneInput(props, ref) {
+    return (
+        <input
+            {...props}
+            ref={ref}
+            className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
+        />
+    );
+});
 
 export default function VoteModal({
     isOpen,
@@ -19,7 +34,6 @@ export default function VoteModal({
     const [showVerifyModal, setShowVerifyModal] = useState(false);
 
     const modalRef = useRef();
-
     const countries = getCountries().filter((country) => country !== "ZZ");
 
     useEffect(() => {
@@ -53,6 +67,11 @@ export default function VoteModal({
     const handleSubmit = async () => {
         if (!phone || !companyId) {
             setError("Phone number and company are required.");
+            return;
+        }
+
+        if (!isValidE164(phone)) {
+            setError("Enter a valid international phone number (e.g. +2567XXXXXXX).");
             return;
         }
 
@@ -153,7 +172,7 @@ export default function VoteModal({
                                         setPhone(value);
                                     }
                                 }}
-                                className="custom-phone-input"
+                                inputComponent={StyledPhoneInput}
                             />
                         </div>
 
