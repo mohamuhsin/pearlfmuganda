@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/db";
 import Vote from "@/models/Vote";
-import { sendOtpSms } from "@/lib/twilio";
+import { sendOtpSms } from "@/lib/egosms"; // Updated to use EgoSMS
 
 export async function POST(req) {
     await connectDB();
@@ -28,29 +28,33 @@ export async function POST(req) {
             });
         }
 
-        // Generate new OTP and expiry
+        // Generate new OTP and expiry time (5 minutes)
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
+        const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-        // Update vote with new OTP info
+        // Update vote record with new OTP
         vote.otpCode = otp;
         vote.otpExpiresAt = otpExpiresAt;
         await vote.save();
 
-        // Send OTP SMS
         try {
-            await sendOtpSms(vote.phone, otp);
+            await sendOtpSms(vote.phone, otp); // Phone is sanitized inside sendOtpSms
         } catch (smsError) {
-            console.error("Failed to resend OTP SMS:", smsError);
-            return new Response(JSON.stringify({ error: "Failed to send OTP SMS" }), {
-                status: 500,
-            });
+            console.error("Failed to resend OTP SMS via EgoSMS:", smsError);
+            return new Response(
+                JSON.stringify({
+                    error: "Failed to resend OTP SMS. Please try again!",
+                }),
+                {
+                    status: 500,
+                }
+            );
         }
 
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (error) {
         console.error("Resend OTP error:", error);
-        return new Response(JSON.stringify({ error: "Server error" }), {
+        return new Response(JSON.stringify({ error: "Something went wrong" }), {
             status: 500,
         });
     }

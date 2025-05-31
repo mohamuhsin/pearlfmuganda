@@ -1,10 +1,9 @@
-// app/api/request_otp/route.js
 import { connectDB } from "@/lib/db";
 import Vote from "@/models/Vote";
-import { sendOtpSms } from "@/lib/twilio";
+import { sendOtpSms } from "@/lib/egosms"; // Using EgoSMS for OTPs
 
-function isValidE164(phone) {
-    return /^\+[1-9]\d{1,14}$/.test(phone); // Validates international numbers like +2567xxxxxxx
+function isValidUgandanPhone(phone) {
+    return /^(?:\+?2567\d{8})$/.test(phone); // Accepts +2567XXXXXXXX or 2567XXXXXXXX
 }
 
 export async function POST(req) {
@@ -18,16 +17,17 @@ export async function POST(req) {
         });
     }
 
-    // Check phone format
-    if (!isValidE164(phone)) {
+    if (!isValidUgandanPhone(phone)) {
         return new Response(
-            JSON.stringify({ error: "Invalid phone number format" }),
+            JSON.stringify({
+                error:
+                    "Only valid Ugandan numbers are allowed (e.g. +2567XXXXXXXX or 2567XXXXXXXX)",
+            }),
             { status: 400 }
         );
     }
 
     try {
-        // Check for existing verified vote
         const existingVote = await Vote.findOne({
             phone,
             category: categoryId,
@@ -41,11 +41,9 @@ export async function POST(req) {
             );
         }
 
-        // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
+        const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 mins from now
 
-        // Upsert vote with OTP
         const vote = await Vote.findOneAndUpdate(
             { phone, category: categoryId },
             {
@@ -61,13 +59,12 @@ export async function POST(req) {
             { upsert: true, new: true, setDefaultsOnInsert: true }
         );
 
-        // Send OTP SMS
         try {
-            await sendOtpSms(phone, otp);
+            await sendOtpSms(phone, otp); // sendOtpSms internally sanitizes the phone number
         } catch (smsError) {
-            console.error("Failed to send OTP SMS:", smsError);
+            console.error("Failed to send OTP SMS via EgoSMS:", smsError);
             return new Response(
-                JSON.stringify({ error: "Failed to send OTP SMS, Try Again!" }),
+                JSON.stringify({ error: "Failed to send OTP SMS. Please try again!" }),
                 {
                     status: 500,
                 }
