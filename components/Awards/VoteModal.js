@@ -14,6 +14,7 @@ const StyledPhoneInput = forwardRef(function StyledPhoneInput(props, ref) {
         <input
             {...props}
             ref={ref}
+            placeholder={props.placeholder}
             className="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150"
         />
     );
@@ -31,7 +32,6 @@ export default function VoteModal({
     const [error, setError] = useState(null);
     const [voteId, setVoteId] = useState(null);
     const [showVerifyModal, setShowVerifyModal] = useState(false);
-
     const modalRef = useRef();
 
     useEffect(() => {
@@ -165,17 +165,14 @@ export default function VoteModal({
                                 defaultCountry="UG"
                                 countries={["UG"]}
                                 international={false}
-                                withCountryCallingCode
+                                countrySelectProps={{ disabled: true }}
                                 value={phone}
-                                onChange={(value) => {
-                                    if (!value || value.length <= 15) {
-                                        setPhone(value);
-                                    }
-                                }}
+                                onChange={(value) => setPhone(value)}
+                                placeholder="Enter phone number e.g. 07XXXXXXXX"
                                 inputComponent={StyledPhoneInput}
                             />
                             <small className="text-gray-500 text-xs mt-1">
-                                Only Ugandan phone numbers (e.g. +2567XXXXXXXX)
+                                Note: Only Ugandan phone numbers are allowed.
                             </small>
                         </div>
 
