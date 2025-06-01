@@ -1,3 +1,5 @@
+"use client";
+
 import NavigationCards from "./NavigationCards";
 
 export default function HeroContent() {
