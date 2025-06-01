@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaHome } from "react-icons/fa";
@@ -36,53 +38,61 @@ const itemVariants = {
 
 export default function ContactInfo() {
     return (
-        <motion.div
-            className="flex flex-wrap md:flex-nowrap w-full items-start md:items-center justify-start md:justify-center gap-y-2 md:gap-x-10 text-[10px] md:text-xs lg:text-sm px-6 py-4 min-w-0"
+        <motion.nav
+            aria-label="Contact Information"
             initial="hidden"
             animate="visible"
+            className="flex flex-wrap md:flex-nowrap w-full items-start md:items-center justify-start md:justify-center gap-y-2 md:gap-x-10 text-[10px] md:text-xs lg:text-sm px-6 py-4 min-w-0"
         >
-            {contacts.map(({ href, icon: Icon, label, type }, index) =>
-                type === "internal" ? (
+            {contacts.map(({ href, icon: Icon, label, type }, index) => {
+                const commonClasses =
+                    "flex items-center gap-3 text-white hover:text-[#ff7e1c] transition duration-300";
+
+                const iconWrapperClasses =
+                    "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#030269] hover:bg-[#ff7e1c] hover:text-white transition duration-300 text-[16px]";
+
+                return (
                     <motion.div
-                        key={index}
+                        key={label} // Use label as key for better stability if unique
                         custom={index}
                         variants={itemVariants}
                         className="w-full md:w-auto shrink-0"
                     >
-                        <Link
-                            href={href}
-                            aria-label={`Go to ${label}`}
-                            className="flex items-center gap-3 text-white hover:text-[#ff7e1c] transition duration-300"
-                        >
-                            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#030269] hover:bg-[#ff7e1c] hover:text-white transition duration-300 text-[16px]">
-                                <Icon />
-                            </div>
-                            <span className="text-[14px] md:text-xs lg:text-sm font-bold">
-                                {label}
-                            </span>
-                        </Link>
+                        {type === "internal" ? (
+                            <Link
+                                href={href}
+                                aria-label={`Go to ${label}`}
+                                className={commonClasses}
+                            >
+                                <div className={iconWrapperClasses}>
+                                    <Icon aria-hidden="true" />
+                                </div>
+                                <span className="text-[14px] md:text-xs lg:text-sm font-bold">
+                                    {label}
+                                </span>
+                            </Link>
+                        ) : (
+                            <a
+                                href={href}
+                                className={commonClasses}
+                                aria-label={`Call or email ${label}`}
+                                target={href.startsWith("http") ? "_blank" : undefined}
+                                rel={
+                                    href.startsWith("http") ? "noopener noreferrer" : undefined
+                                }
+                            >
+                                <div className={iconWrapperClasses}>
+                                    <Icon aria-hidden="true" />
+                                </div>
+                                <span className="text-[14px] md:text-xs lg:text-sm font-bold">
+                                    {label}
+                                </span>
+                            </a>
+                        )}
                     </motion.div>
-                ) : (
-                    <motion.div
-                        key={index}
-                        custom={index}
-                        variants={itemVariants}
-                        className="w-full md:w-auto shrink-0"
-                    >
-                        <a
-                            href={href}
-                            className="flex items-center gap-3 text-white hover:text-[#ff7e1c] transition duration-300"
-                        >
-                            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#030269] hover:bg-[#ff7e1c] hover:text-white transition duration-300 text-[16px]">
-                                <Icon />
-                            </div>
-                            <span className="text-[14px] md:text-xs lg:text-sm font-bold">
-                                {label}
-                            </span>
-                        </a>
-                    </motion.div>
-                )
-            )}
+                );
+            })}
+
             <motion.div
                 custom={contacts.length}
                 variants={itemVariants}
@@ -90,6 +100,6 @@ export default function ContactInfo() {
             >
                 <LiveButton />
             </motion.div>
-        </motion.div>
+        </motion.nav>
     );
 }
