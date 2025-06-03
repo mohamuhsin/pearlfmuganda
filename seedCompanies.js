@@ -58,6 +58,7 @@ const companiesByCategory = {
         "Dr Mulwana",
         "Dr Wahab & Prof Kizito",
         "Prof Julius Nyanzi",
+        "Dr Muslim Migadde",
     ],
     "Telecom Excellence Award": [
         "MTN Uganda",
