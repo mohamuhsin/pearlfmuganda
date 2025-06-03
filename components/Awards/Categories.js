@@ -1,18 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 import VoteModal from "./VoteModal";
 
-/**
- * Generic fetcher for SWR hooks.
- */
+/* -------------------------------------------------------------------------- */
+/*                               Data fetcher                                 */
+/* -------------------------------------------------------------------------- */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-/**
- * Placeholder skeleton while categories are loading.
- */
+/* -------------------------------------------------------------------------- */
+/*                           Loading skeleton card                            */
+/* -------------------------------------------------------------------------- */
 function SkeletonCard() {
     return (
         <article className="rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col animate-pulse">
@@ -30,72 +30,123 @@ function SkeletonCard() {
     );
 }
 
-/**
- * Categories component: list of award categories with live voting results.
- */
+/* -------------------------------------------------------------------------- */
+/*                           Results list (accordion)                         */
+/* -------------------------------------------------------------------------- */
+function ResultsList({ companies, loading }) {
+    if (loading) {
+        return (
+            <ul className="space-y-2 animate-pulse" aria-busy="true">
+                {[...Array(4)].map((_, i) => (
+                    <li key={i} className="flex justify-between items-center py-2 px-2">
+                        <div className="bg-gray-300 h-4 rounded w-3/4" />
+                        <div className="bg-gray-300 h-4 rounded w-1/4" />
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+
+    if (!companies?.length) {
+        return <p className="text-gray-500 py-3 text-center">No companies yet.</p>;
+    }
+
+    return (
+        <>
+            <div className="flex justify-between px-2 text-xs text-gray-500 font-semibold uppercase border-b border-gray-200 pb-1 mb-3 tracking-wide">
+                <span className="w-3/4">Nominees</span>
+                <span className="w-1/4 text-right">Votes</span>
+            </div>
+            <ul className="space-y-0">
+                {companies
+                    .slice()
+                    .sort((a, b) => (b.voteCount || 0) - (a.voteCount || 0))
+                    .map((company, idx, arr) => (
+                        <li
+                            key={company._id}
+                            className={`flex justify-between items-center py-2 px-2 rounded hover:bg-gray-100 transition ${idx !== arr.length - 1 ? "border-b border-gray-300" : ""
+                                }`}
+                        >
+                            <div
+                                title={company.name}
+                                className="truncate font-medium text-gray-800 w-3/4"
+                            >
+                                {company.name}
+                            </div>
+                            <div className="text-right text-gray-700 font-semibold w-1/4">
+                                {company.voteCount || 0}
+                            </div>
+                        </li>
+                    ))}
+            </ul>
+        </>
+    );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              Main component                                */
+/* -------------------------------------------------------------------------- */
 export default function Categories() {
-    // --- Remote data & local UI state ---------------------------------------- //
     const {
         data: categories,
         error,
-        mutate, // re-fetches /api/categories when a vote succeeds
+        mutate,
     } = useSWR("/api/categories", fetcher, {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
-        dedupingInterval: 1000 * 60 * 5, // 5 minutes cache
+        dedupingInterval: 1000 * 60 * 5, // 5-minute SWR cache
     });
 
-    const [openIndex, setOpenIndex] = useState(null); // currently expanded card index
-    const [loadingIndex, setLoadingIndex] = useState(null); // index whose results are being fetched
-    const [resultsCache, setResultsCache] = useState({}); // in‑memory cache for latest fetched results
-    const [selectedCategory, setSelectedCategory] = useState(null); // category for VoteModal
+    const [openIndex, setOpenIndex] = useState(null);
+    const [loadingIndex, setLoadingIndex] = useState(null);
+    const [resultsCache, setResultsCache] = useState({});
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // ------------------------------------------------------------------------ //
+    /* ------------------------------ Vote refresh ----------------------------- */
+    const handleVoteSuccess = () => {
+        mutate(); // refresh category cards after a successful vote
+    };
 
+    /* --------------------------- Toggle results pane ------------------------- */
+    const handleToggleResults = useCallback(
+        async (index, categoryId) => {
+            /* Collapse if already open */
+            if (openIndex === index) {
+                setOpenIndex(null);
+                return;
+            }
+
+            /* Show cached results immediately if present */
+            if (resultsCache[categoryId]) {
+                setOpenIndex(index);
+                return;
+            }
+
+            /* Otherwise fetch fresh data */
+            setLoadingIndex(index);
+            try {
+                const res = await fetch(`/api/categories/${categoryId}`);
+                if (!res.ok) throw new Error("Failed to fetch category results");
+                const data = await res.json();
+
+                setResultsCache((prev) => ({ ...prev, [categoryId]: data }));
+                setOpenIndex(index);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoadingIndex(null);
+            }
+        },
+        [openIndex, resultsCache]
+    );
+
+    /* --------------------------- Render starts here -------------------------- */
     if (error) {
         return (
             <p className="text-center text-red-600 py-10">Error: {error.message}</p>
         );
     }
 
-    /**
-     * Called by VoteModal after successful vote – triggers SWR mutate to
-     * refresh the global categories list (for vote counts on cards).
-     */
-    const handleVoteSuccess = () => {
-        mutate();
-    };
-
-    /**
-     * Toggle the visibility of results for the selected category.
-     * Always fetch the latest results from the server to ensure real‑time data.
-     */
-    const handleToggleResults = async (index, categoryId) => {
-        // Collapse if the section is already open
-        if (openIndex === index) {
-            setOpenIndex(null);
-            return;
-        }
-
-        try {
-            setLoadingIndex(index);
-
-            // 🔄 Always fetch fresh results to avoid stale data
-            const res = await fetch(`/api/categories/${categoryId}`);
-            if (!res.ok) throw new Error("Failed to fetch category results");
-            const data = await res.json();
-
-            // Update cache with the latest response
-            setResultsCache((prev) => ({ ...prev, [categoryId]: data }));
-            setOpenIndex(index);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoadingIndex(null);
-        }
-    };
-
-    // ------------------------------------------------------------------------ //
     return (
         <section className="max-w-7xl mx-auto px-4">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-14 text-gray-800">
@@ -103,11 +154,9 @@ export default function Categories() {
             </h2>
 
             <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                {/* Show skeletons while categories are loading */}
                 {!categories
                     ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
                     : categories.map((cat, index) => {
-                        // Prefer freshly fetched results; fall back to SWR data
                         const categoryResults = resultsCache[cat._id] || cat;
 
                         return (
@@ -152,12 +201,17 @@ export default function Categories() {
                                             aria-live="polite"
                                         >
                                             <button
-                                                className="w-full flex items-center justify-between cursor-pointer text-[#ff7d1c] font-semibold"
+                                                className="w-full flex items-center justify-between cursor-pointer text-[#ff7d1c] font-semibold disabled:opacity-50"
                                                 onClick={() => handleToggleResults(index, cat._id)}
                                                 aria-expanded={openIndex === index}
                                                 aria-controls={`results-list-${index}`}
+                                                disabled={loadingIndex === index}
                                             >
-                                                <span>See Results</span>
+                                                <span>
+                                                    {loadingIndex === index
+                                                        ? "Loading..."
+                                                        : "See Results"}
+                                                </span>
                                                 <svg
                                                     className={`w-5 h-5 transition-transform duration-300 ease-in-out ${openIndex === index ? "rotate-90" : "rotate-0"
                                                         }`}
@@ -176,6 +230,7 @@ export default function Categories() {
                                                 </svg>
                                             </button>
 
+                                            {/* Results dropdown */}
                                             <div
                                                 id={`results-list-${index}`}
                                                 className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index
@@ -185,60 +240,12 @@ export default function Categories() {
                                                 aria-hidden={openIndex !== index}
                                                 role="region"
                                                 aria-labelledby={`category-title-${index}`}
+                                                aria-busy={loadingIndex === index}
                                             >
-                                                {/* Loading state */}
-                                                {loadingIndex === index ? (
-                                                    <ul className="space-y-2 animate-pulse">
-                                                        {[...Array(4)].map((_, i) => (
-                                                            <li
-                                                                key={i}
-                                                                className="flex justify-between items-center py-2 px-2"
-                                                            >
-                                                                <div className="bg-gray-300 h-4 rounded w-3/4" />
-                                                                <div className="bg-gray-300 h-4 rounded w-1/4" />
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                ) : categoryResults.companies?.length > 0 ? (
-                                                    <>
-                                                        <div className="flex justify-between px-2 text-xs text-gray-500 font-semibold uppercase border-b border-gray-200 pb-1 mb-3 tracking-wide">
-                                                            <span className="w-3/4">Nominees</span>
-                                                            <span className="w-1/4 text-right">Votes</span>
-                                                        </div>
-                                                        <ul className="space-y-0">
-                                                            {categoryResults.companies
-                                                                .slice()
-                                                                .sort(
-                                                                    (a, b) =>
-                                                                        (b.voteCount || 0) - (a.voteCount || 0)
-                                                                )
-                                                                .map((company, idx) => (
-                                                                    <li
-                                                                        key={company._id}
-                                                                        className={`flex justify-between items-center py-2 px-2 rounded hover:bg-gray-100 transition ${idx !==
-                                                                            categoryResults.companies.length - 1
-                                                                            ? "border-b border-gray-300"
-                                                                            : ""
-                                                                            }`}
-                                                                    >
-                                                                        <div
-                                                                            title={company.name}
-                                                                            className="truncate font-medium text-gray-800 w-3/4"
-                                                                        >
-                                                                            {company.name}
-                                                                        </div>
-                                                                        <div className="text-right text-gray-700 font-semibold w-1/4">
-                                                                            {company.voteCount || 0}
-                                                                        </div>
-                                                                    </li>
-                                                                ))}
-                                                        </ul>
-                                                    </>
-                                                ) : (
-                                                    <p className="text-gray-500 py-3 text-center">
-                                                        No companies yet.
-                                                    </p>
-                                                )}
+                                                <ResultsList
+                                                    companies={categoryResults.companies}
+                                                    loading={loadingIndex === index}
+                                                />
                                             </div>
                                         </div>
                                     </div>
