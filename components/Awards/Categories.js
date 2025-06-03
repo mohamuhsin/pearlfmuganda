@@ -5,8 +5,14 @@ import useSWR from "swr";
 import Image from "next/image";
 import VoteModal from "./VoteModal";
 
+/**
+ * Generic fetcher for SWR hooks.
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * Placeholder skeleton while categories are loading.
+ */
 function SkeletonCard() {
     return (
         <article className="rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col animate-pulse">
@@ -24,16 +30,27 @@ function SkeletonCard() {
     );
 }
 
+/**
+ * Categories component: list of award categories with live voting results.
+ */
 export default function Categories() {
+    // --- Remote data & local UI state ---------------------------------------- //
     const {
         data: categories,
         error,
-        mutate,
-    } = useSWR("/api/categories", fetcher);
-    const [openIndex, setOpenIndex] = useState(null);
-    const [loadingIndex, setLoadingIndex] = useState(null);
-    const [resultsCache, setResultsCache] = useState({});
-    const [selectedCategory, setSelectedCategory] = useState(null);
+        mutate, // re-fetches /api/categories when a vote succeeds
+    } = useSWR("/api/categories", fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        dedupingInterval: 1000 * 60 * 5, // 5 minutes cache
+    });
+
+    const [openIndex, setOpenIndex] = useState(null); // currently expanded card index
+    const [loadingIndex, setLoadingIndex] = useState(null); // index whose results are being fetched
+    const [resultsCache, setResultsCache] = useState({}); // in‑memory cache for latest fetched results
+    const [selectedCategory, setSelectedCategory] = useState(null); // category for VoteModal
+
+    // ------------------------------------------------------------------------ //
 
     if (error) {
         return (
@@ -41,27 +58,34 @@ export default function Categories() {
         );
     }
 
+    /**
+     * Called by VoteModal after successful vote – triggers SWR mutate to
+     * refresh the global categories list (for vote counts on cards).
+     */
     const handleVoteSuccess = () => {
         mutate();
     };
 
+    /**
+     * Toggle the visibility of results for the selected category.
+     * Always fetch the latest results from the server to ensure real‑time data.
+     */
     const handleToggleResults = async (index, categoryId) => {
+        // Collapse if the section is already open
         if (openIndex === index) {
             setOpenIndex(null);
             return;
         }
 
-        if (resultsCache[categoryId]) {
-            setOpenIndex(index);
-            return;
-        }
-
         try {
             setLoadingIndex(index);
+
+            // 🔄 Always fetch fresh results to avoid stale data
             const res = await fetch(`/api/categories/${categoryId}`);
             if (!res.ok) throw new Error("Failed to fetch category results");
             const data = await res.json();
 
+            // Update cache with the latest response
             setResultsCache((prev) => ({ ...prev, [categoryId]: data }));
             setOpenIndex(index);
         } catch (err) {
@@ -71,6 +95,7 @@ export default function Categories() {
         }
     };
 
+    // ------------------------------------------------------------------------ //
     return (
         <section className="max-w-7xl mx-auto px-4">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-14 text-gray-800">
@@ -78,9 +103,11 @@ export default function Categories() {
             </h2>
 
             <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                {/* Show skeletons while categories are loading */}
                 {!categories
                     ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
                     : categories.map((cat, index) => {
+                        // Prefer freshly fetched results; fall back to SWR data
                         const categoryResults = resultsCache[cat._id] || cat;
 
                         return (
@@ -89,6 +116,7 @@ export default function Categories() {
                                 className="self-start rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col hover:shadow-2xl transition duration-300"
                                 aria-labelledby={`category-title-${index}`}
                             >
+                                {/* Category image */}
                                 <div className="relative w-full h-56 md:h-64 lg:h-72">
                                     <Image
                                         src={cat.image}
@@ -100,6 +128,7 @@ export default function Categories() {
                                     />
                                 </div>
 
+                                {/* Card content */}
                                 <div className="p-6 flex flex-col justify-between flex-grow">
                                     <h3
                                         id={`category-title-${index}`}
@@ -109,6 +138,7 @@ export default function Categories() {
                                     </h3>
 
                                     <div className="flex flex-col gap-4 mt-auto">
+                                        {/* Vote button */}
                                         <button
                                             onClick={() => setSelectedCategory(cat)}
                                             className="bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition"
@@ -116,6 +146,7 @@ export default function Categories() {
                                             Vote Now
                                         </button>
 
+                                        {/* Results accordion */}
                                         <div
                                             className="text-sm rounded-md border border-gray-200 px-4 py-2 bg-gray-50 transition-all"
                                             aria-live="polite"
@@ -155,6 +186,7 @@ export default function Categories() {
                                                 role="region"
                                                 aria-labelledby={`category-title-${index}`}
                                             >
+                                                {/* Loading state */}
                                                 {loadingIndex === index ? (
                                                     <ul className="space-y-2 animate-pulse">
                                                         {[...Array(4)].map((_, i) => (
@@ -216,6 +248,7 @@ export default function Categories() {
                     })}
             </div>
 
+            {/* Vote modal (client component) */}
             <VoteModal
                 isOpen={!!selectedCategory}
                 onClose={() => setSelectedCategory(null)}
