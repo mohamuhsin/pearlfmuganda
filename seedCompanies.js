@@ -211,6 +211,8 @@ const companiesByCategory = {
         "Milestone Junior Sch",
         "Golden Balls Nursery & Pri",
         "Learnyard Pri Sch Kyanja",
+        "Al-haqqu Junior School",
+        "Lufuka Quality Islamic Pri Sch",
     ],
     "Islamic Secondary School Excellence Award": [
         "Bilal Islamic Sec Sch Bwaise",
@@ -238,6 +240,8 @@ const companiesByCategory = {
         "Faiha High Sch",
         "Almadinatuh Munawarah Islamic",
         "Kampala Islamic Sec Sch",
+        "Kawempe Muslim Sec School",
+        "Mbogo Mixed Sec School",
     ],
 };
 
