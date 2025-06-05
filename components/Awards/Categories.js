@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 import VoteModal from "./VoteModal";
+import CategoriesHeader from "./CategoriesHeader";
 
 /* -------------------------------------------------------------------------- */
 /*                               Data fetcher                                 */
@@ -149,9 +150,7 @@ export default function Categories() {
 
     return (
         <section className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-14 text-gray-800">
-                Explore Award Categories
-            </h2>
+            <CategoriesHeader />
 
             <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {!categories

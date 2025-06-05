@@ -1,26 +1,38 @@
 import PageHeader from "@/components/Awards/Header";
+import BusinessCategories from "@/components/Halal-Business/Categories";
+import CategoriesHeader from "@/components/Halal-Business/CategoriesHeader";
+import { prisma } from "@/lib/prisma"; // call DB directly (no fetch)
 
 export const metadata = {
-    title: "Halal Business",
-    description: "Directory of trusted halal businesses and services.",
+    title: "Halal Business Directory | Pearl FM",
+    description: "Discover and support verified Halal businesses in Uganda.",
 };
 
-export default function HalaBusinessPage() {
+export default async function HalalBusinessPage() {
+    // Fetch directly from the database on the server
+    const categories = await prisma.category.findMany({
+        orderBy: { name: "asc" },
+    });
+
     return (
         <div className="min-h-screen flex flex-col">
-            {/* Top Navigation */}
-            <header className="py-6">{/*<Navbar />*/}</header>
+            <header className="py-6">{/* Optional Navbar */}</header>
 
-            {/* Hero Section */}
             <PageHeader
-                title="Halal Business"
-                description="Trusted. Certified. Ethical."
+                title="Halal Businesses"
+                description="Discover and support verified Halal businesses across Uganda."
             />
 
-            {/* Main Content */}
-            <main className="flex-grow px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <section className="py-14"></section>
+            <main className="flex-grow px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
+                <section className="py-12 sm:py-14">
+                    <CategoriesHeader />
+                    <div className="mt-16">
+                        <BusinessCategories categories={categories} />
+                    </div>
+                </section>
             </main>
+
+            <footer className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 pb-6" />
         </div>
     );
 }

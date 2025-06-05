@@ -44,6 +44,7 @@ const companiesByCategory = {
         "YPA",
         "Yamusa",
         "Concfeed International",
+        "Bidco",
     ],
     "Herbal Researcher Excellence Award": [
         "Dr Yasin Ziwa",

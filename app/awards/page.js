@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar/Navbar";
 import PageHeader from "@/components/Awards/Header";
 import AwardsCategories from "@/components/Awards/Categories";
 import PageViews from "@/components/Page Views/PageViews";

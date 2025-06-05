@@ -1,0 +1,40 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma/index.js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Make sure .env file contains this
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  icon        String     // e.g. 'Utensils', 'Plane', used on frontend
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  businesses  Business[]
+}
+
+model Business {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  contact     String?    // e.g. phone, email, or both
+  website     String?    // external link to business
+  location    String?    // optional location field
+  logo        String?    // logo image URL
+  promotions  String?    // short promo message or offers
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
