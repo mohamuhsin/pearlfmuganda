@@ -32,6 +32,7 @@ const companiesByCategory = {
         "Aljanatul Gaaya",
         "Qubah Hijja and Umrah",
         "Al Hibah Tours",
+        "Anwaary Travel Agency",
     ],
     "Agri Based Products Excellence Award": [
         "Supreme Flour",
@@ -160,6 +161,7 @@ const companiesByCategory = {
         "Tamim Muslim Garments",
         "Mustallah Collections",
         "Hajjat Mastullah Garments",
+        "Jilbab House",
     ],
 
     "Islamic Primary School Excellence Award": [
@@ -215,6 +217,7 @@ const companiesByCategory = {
         "Learnyard Pri Sch Kyanja",
         "Al-haqqu Junior School",
         "Lufuka Quality Islamic Pri Sch",
+        "AK Islamic Maganjo",
     ],
     "Islamic Secondary School Excellence Award": [
         "Bilal Islamic Sec Sch Bwaise",
@@ -244,6 +247,7 @@ const companiesByCategory = {
         "Kampala Islamic Sec Sch",
         "Kawempe Muslim Sec School",
         "Mbogo Mixed Sec School",
+        "Nibras Islamic Sec Sch",
     ],
 };
 
