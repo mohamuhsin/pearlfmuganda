@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Follow from "@/components/Footer/Footer";
 import AudioPlayer from "@/components/Live/Player";
+//import Whatsapp from "@/components/Whatsapp/Whatsapp";
 
 // Load Google Fonts
 const montserrat = Montserrat({
@@ -49,6 +50,7 @@ export default function RootLayout({ children }) {
         </div>
 
         {/* Vercel Analytics */}
+        {/*<Whatsapp />*/}
         <Analytics />
       </body>
     </html>

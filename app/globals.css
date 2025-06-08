@@ -43,3 +43,41 @@ body {
 .custom-phone-input .PhoneInputInput {
   @apply w-full border border-gray-300 rounded-xl px-3 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] transition duration-150;
 }
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  border-radius: 50%;
+  padding: 20px; /* Increase padding for bigger icon */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  animation: pulse 1.5s infinite; /* Continuous pulse animation */
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.1);
+  background-color: #128c7e;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Increase size */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.whatsapp-button img {
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-button:hover img {
+  transform: scale(1.1); /* Image scaling on hover */
+}
