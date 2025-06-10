@@ -16,15 +16,15 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 /* -------------------------------------------------------------------------- */
 function SkeletonCard() {
     return (
-        <article className="rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col animate-pulse">
+        <article className="rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col">
             <div className="relative w-full h-56 md:h-64 lg:h-72">
-                <div className="absolute inset-0 bg-gray-300" />
+                <div className="absolute inset-0 bg-gray-300 animate-pulse" />
             </div>
             <div className="p-6 flex flex-col justify-between flex-grow">
-                <div className="bg-gray-300 rounded w-3/4 mx-auto mb-6 h-[60px]" />
+                <div className="bg-gray-300 rounded w-3/4 mx-auto mb-6 h-[60px] animate-pulse" />
                 <div className="flex flex-col gap-4 mt-auto">
-                    <div className="bg-gray-300 h-10 rounded w-full" />
-                    <div className="bg-gray-200 h-12 rounded w-full mt-2" />
+                    <div className="bg-gray-300 h-10 rounded w-full animate-pulse" />
+                    <div className="bg-gray-200 h-12 rounded w-full mt-2 animate-pulse" />
                 </div>
             </div>
         </article>
@@ -37,11 +37,11 @@ function SkeletonCard() {
 function ResultsList({ companies, loading }) {
     if (loading) {
         return (
-            <ul className="space-y-2 animate-pulse" aria-busy="true">
+            <ul className="space-y-2" aria-busy="true">
                 {[...Array(4)].map((_, i) => (
                     <li key={i} className="flex justify-between items-center py-2 px-2">
-                        <div className="bg-gray-300 h-4 rounded w-3/4" />
-                        <div className="bg-gray-300 h-4 rounded w-1/4" />
+                        <div className="bg-gray-300 h-4 rounded w-3/4 animate-pulse" />
+                        <div className="bg-gray-300 h-4 rounded w-1/4 animate-pulse" />
                     </li>
                 ))}
             </ul>
@@ -95,7 +95,7 @@ export default function Categories() {
     } = useSWR("/api/categories", fetcher, {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
-        dedupingInterval: 1000 * 60 * 5, // 5-minute SWR cache
+        dedupingInterval: 1000 * 60 * 5,
     });
 
     const [openIndex, setOpenIndex] = useState(null);
@@ -103,33 +103,27 @@ export default function Categories() {
     const [resultsCache, setResultsCache] = useState({});
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    /* ------------------------------ Vote refresh ----------------------------- */
     const handleVoteSuccess = () => {
-        mutate(); // refresh category cards after a successful vote
+        mutate();
     };
 
-    /* --------------------------- Toggle results pane ------------------------- */
     const handleToggleResults = useCallback(
         async (index, categoryId) => {
-            /* Collapse if already open */
             if (openIndex === index) {
                 setOpenIndex(null);
                 return;
             }
 
-            /* Show cached results immediately if present */
             if (resultsCache[categoryId]) {
                 setOpenIndex(index);
                 return;
             }
 
-            /* Otherwise fetch fresh data */
             setLoadingIndex(index);
             try {
                 const res = await fetch(`/api/categories/${categoryId}`);
                 if (!res.ok) throw new Error("Failed to fetch category results");
                 const data = await res.json();
-
                 setResultsCache((prev) => ({ ...prev, [categoryId]: data }));
                 setOpenIndex(index);
             } catch (err) {
@@ -141,7 +135,6 @@ export default function Categories() {
         [openIndex, resultsCache]
     );
 
-    /* --------------------------- Render starts here -------------------------- */
     if (error) {
         return (
             <p className="text-center text-red-600 py-10">Error: {error.message}</p>
@@ -164,7 +157,6 @@ export default function Categories() {
                                 className="self-start rounded-3xl overflow-hidden shadow-xl bg-white flex flex-col hover:shadow-2xl transition duration-300"
                                 aria-labelledby={`category-title-${index}`}
                             >
-                                {/* Category image */}
                                 <div className="relative w-full h-56 md:h-64 lg:h-72">
                                     <Image
                                         src={cat.image}
@@ -176,7 +168,6 @@ export default function Categories() {
                                     />
                                 </div>
 
-                                {/* Card content */}
                                 <div className="p-6 flex flex-col justify-between flex-grow">
                                     <h3
                                         id={`category-title-${index}`}
@@ -186,7 +177,6 @@ export default function Categories() {
                                     </h3>
 
                                     <div className="flex flex-col gap-4 mt-auto">
-                                        {/* Vote button */}
                                         <button
                                             onClick={() => setSelectedCategory(cat)}
                                             className="bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition"
@@ -194,7 +184,6 @@ export default function Categories() {
                                             Vote Now
                                         </button>
 
-                                        {/* Results accordion */}
                                         <div
                                             className="text-sm rounded-md border border-gray-200 px-4 py-2 bg-gray-50 transition-all"
                                             aria-live="polite"
@@ -229,7 +218,6 @@ export default function Categories() {
                                                 </svg>
                                             </button>
 
-                                            {/* Results dropdown */}
                                             <div
                                                 id={`results-list-${index}`}
                                                 className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index
@@ -254,7 +242,6 @@ export default function Categories() {
                     })}
             </div>
 
-            {/* Vote modal (client component) */}
             <VoteModal
                 isOpen={!!selectedCategory}
                 onClose={() => setSelectedCategory(null)}
