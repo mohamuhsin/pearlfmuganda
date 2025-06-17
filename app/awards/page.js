@@ -3,7 +3,7 @@ import AwardsCategories from "@/components/Awards/Categories";
 import PageViews from "@/components/Page Views/PageViews";
 
 export const metadata = {
-    title: "Ekkula Awards",
+    title: "Pearl Fm Radio Awards",
     description: "Celebrate Brand Excellence",
 };
 
