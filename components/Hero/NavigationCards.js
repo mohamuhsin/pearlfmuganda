@@ -37,7 +37,7 @@ const cards = [
         link: "/events",
     },
     {
-        title: "Ekkula Awards",
+        title: "Pearl Fm Awards",
         icon: <FaTrophy size={40} aria-hidden="true" />,
         link: "/awards",
     },
