@@ -18,7 +18,7 @@ export default function AwardsPage() {
 
             {/* Hero Section */}
             <PageHeader
-                title="Ekkula Awards 2025"
+                title="Pearl Fm Awards 2025"
                 description="Celebrate brand excellence. Honor achievement. Inspire greatness."
             />
 

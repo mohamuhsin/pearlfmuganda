@@ -8,59 +8,59 @@ dotenv.config();
 const categories = [
     {
         name: "Travel Agency Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Agri Based Products Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Beverage Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Halal Restaurants Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Paints Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Energy & Gas Supplier Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Real Estate & Property Mgt Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Recruitment Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Agencies & FMCG Distributors Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Muslim Fashion Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Telecom Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Herbal Researcher Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Islamic Primary School Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
     {
         name: "Islamic Secondary School Excellence Award",
-        image: "/categories/ekkula-awards.jpeg",
+        image: "/categories/pearlfm-radio-awards.jpeg",
     },
 ];
 

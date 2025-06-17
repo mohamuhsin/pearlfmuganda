@@ -14,7 +14,7 @@ export default function ThankYouModal({
     const modalRef = useRef();
     const closeBtnRef = useRef();
 
-    const shareMessage = `I just voted for ${companyName} in the ${categoryName} category in the Ekkula Awards, brought to us by Pearl FM Radio. click here 👉 https://pearlfmuganda.com/awards to vote for your favorite company!`;
+    const shareMessage = `I just voted for ${companyName} in the ${categoryName} category in the Pearl Fm Radio Awards, brought to us by Pearl FM Radio. click here 👉 https://pearlfmuganda.com/awards to vote for your favorite company!`;
 
     // Close modal when clicking outside
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function ThankYouModal({
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: "Ekkula Awards Vote",
+                    title: "Pearl Fm Radio Awards Vote",
                     text: shareMessage,
                     url: "https://pearlfmuganda.com/awards",
                 });
@@ -165,7 +165,7 @@ export default function ThankYouModal({
                         rel="noopener noreferrer"
                         className="text-[#ff7d1c] font-semibold underline hover:text-[#ff5900] focus:outline-none focus:ring-2 focus:ring-[#ff7d1c] rounded"
                     >
-                        👉 Ekkula Awards
+                        👉 Pearl Fm Radio Awards
                     </a>
                     , brought to you by Pearl FM Radio. Click the link above to vote to
                     your favorite company!
