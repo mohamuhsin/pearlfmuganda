@@ -179,7 +179,7 @@ export default function Categories() {
                                     <div className="flex flex-col gap-4 mt-auto">
                                         <button
                                             onClick={() => setSelectedCategory(cat)}
-                                            className="bg-[#ff7d1c] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition" disabled
+                                            className="bg-[#dc2626] text-white text-sm font-medium py-2 rounded-lg hover:scale-[1.02] transition" disabled
                                         >
                                             Voting Ended
                                         </button>
