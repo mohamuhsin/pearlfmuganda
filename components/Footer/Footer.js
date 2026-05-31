@@ -100,10 +100,10 @@ export default function Follow() {
                         © {currentYear} Pearl Of Africa Radio. All rights reserved. | Site
                         managed by{" "}
                         <Link
-                            href="https://iventics.com"
+                            href="https://avettics.com"
                             className="font-semibold hover:text-white hover:underline transition-colors"
                         >
-                            Iventics Technologies
+                            Avettics
                         </Link>
                     </p>
                 </div>
